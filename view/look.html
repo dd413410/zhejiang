@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link rel="stylesheet" href="../lib/layui/layui/css/layui.css" />
+		<link rel="stylesheet" href="../css/look.css" />
+		<title>海洋观测数据业务化应用平台</title>
+	</head>
+
+	<body>
+		<div class="head">
+			<div class="title">
+				海洋观测数据业务化应用平台
+			</div>
+
+			<div id="lt-data">
+				<div id="date"></div>
+				<a href="http://zjocean.org.cn/onlineppt/#/list" class="c_link">预报网>></a>
+			</div>
+
+			<div class="sign">
+				<div class="site lt">
+					<span style="margin-right: 0;">当前站:</span>
+					<span id="site">未知</span>
+					<span class="layui-icon layui-icon-refresh-3 load" onclick="load()"></span>
+				</div>
+
+				<div class="lt user" id="user">非法用户</div>
+				<img src="../static/head.png" title="个人中心" alt="个人中心" class="lt" name="openHtm" type="0" url="./user.html" />
+				<div class="layui-btn layui-btn-normal layui-btn-xs lt out" onclick="outFn()">
+					退出
+				</div>
+			</div>
+		</div>
+
+		<div class="foot">
+			<div class="myChart" id="myChart"></div>
+			<div class="layui-inline block">
+				<div class="layui-input-inline">
+					<input type="text" class="layui-input" id="time" placeholder="选择时间范围" />
+				</div>
+			</div>
+		</div>
+
+		<!-- 中间下面 -->
+		<div class="btm_list">
+			<div class="btm_btm">
+
+				<div class="item_">
+					<p>数据管理</p>
+					<div class="item_hide">
+						<p name="openHtm" type="2" url="./data/toNer.html">月统计</p>
+						<p name="openHtm" type="2" url="./data/sites.html">站点数据</p>
+						<p name="openHtm" type="1" url="./data/load.html">数据下载</p>
+						<p name="openHtm" type="2" url="./data/rate.html">传输率统计</p>
+					</div>
+				</div>
+
+				<div class="item_">
+					<p>数据传输</p>
+					<div class="item_hide">
+						<!-- <p name="openHtm" type="2" url="./data/tide.html">沿海潮位</p>
+						<p name="openHtm" type="2" url="./data/wave.html">沿海波浪</p> -->
+						<p name="openHtm" type="2" url="./data/tran.html">政务云数据</p>
+						<p name="openHtm" type="2" url="./data/trann.html">海洋仓数据</p>
+						<!-- <p name="openHtm" type="2" url="./data/live.html">实况要素传输</p> -->
+					</div>
+				</div>
+
+				<div class="item_">
+					<p>系统设置</p>
+					<div class="item_hide">
+						<p name="openHtm" type="2" url="./system/site.html">站点信息</p>
+						<p name="openHtm" type="2" url="./system/info.html">人员信息</p>
+						<p name="openHtm" type="2" url="./system/limit.html">权限管理</p>
+						<p name="openHtm" type="2" url="./system/call.html">报警参数信息</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="elem">
+			<form class="layui-form">
+				<div class="layui-form-item">
+					<input type="checkbox" value="wl" lay-skin="primary" lay-filter="check" title="潮位" />
+				</div>
+
+				<div class="layui-form-item">
+					<input type="checkbox" value="ws,wd" lay-skin="primary" lay-filter="check" title="风速" />
+				</div>
+
+				<div class="layui-form-item">
+					<input type="checkbox" value="ybg" lay-skin="primary" lay-filter="check" title="波高" />
+				</div>
+
+				<div class="layui-form-item">
+					<input type="checkbox" value="wt" lay-skin="primary" lay-filter="check" title="水温" />
+				</div>
+
+				<div class="layui-form-item">
+					<input type="checkbox" value="at" lay-skin="primary" lay-filter="check" title="气温" />
+				</div>
+				<div class="layui-form-item">
+					<input type="checkbox" value="bp" lay-skin="primary" lay-filter="check" title="气压" />
+				</div>
+			</form>
+		</div>
+
+		<div class="ionic">
+			<div>
+				<div class="item">
+					<img src="../static/clr1.png" class="lt" />
+					<p class="lt">正常</p>
+				</div>
+				<div class="item">
+					<img src="../static/clr3.png" class="lt" />
+					<p class="lt">维护</p>
+				</div>
+				<div class="item">
+					<img src="../static/clr6.png" class="lt" />
+					<p class="lt">一级报警</p>
+				</div>
+			</div>
+			<div>
+				<div class="item">
+					<img src="../static/clr2.png" class="lt" />
+					<p class="lt">二级缺报</p>
+				</div>
+				<div class="item">
+					<img src="../static/clr5.png" class="lt" />
+					<p class="lt">三级报警</p>
+				</div>
+				<div class="item">
+					<img src="../static/clr4.png" class="lt" />
+					<p class="lt">四级报警</p>
+				</div>
+			</div>
+			<div>
+				<div class="item">
+					<img src="../static/gcz.png" class="lt" />
+					<p class="lt">观测站</p>
+				</div>
+				<div class="item">
+					<img src="../static/ld.png" class="lt" />
+					<p class="lt">雷达</p>
+				</div>
+				<div class="item">
+					<img src="../static/fb.png" class="lt" />
+					<p class="lt">浮标</p>
+				</div>
+				<div class="item">
+					<img src="../static/chuan.png" class="lt" />
+					<p class="lt">志愿船</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="box_r">
+			<div class="layui-tab layui-tab-card ri_box" lay-filter="tab">
+				<ul class="layui-tab-title tle">
+					<li tab-id="1" class="layui-this">站点小时数据</li>
+					<li tab-id="2" class="mar_li">近三天曲线</li>
+					<li tab-id="3">排行</li>
+				</ul>
+
+				<div class="layui-tab-content content">
+					<!-- 站点小时数据 -->
+					<div class="layui-tab-item layui-show">
+						<div class="_box">
+							<div>
+								<dl id="table_tle"></dl>
+							</div>
+
+							<div id="table_box"></div>
+						</div>
+					</div>
+					<!-- 折线图 -->
+					<div class="layui-tab-item" id="main"></div>
+					<!-- 排行榜 -->
+					<div class="layui-tab-item">
+						<div class="rank_tle">
+							<p class="add">气温</p>
+							<p>潮位</p>
+							<p>波高</p>
+							<p>降水量</p>
+							<p>水温</p>
+							<p>气压</p>
+						</div>
+						<div class="rank_box">
+							<ul class="tle_rank">
+								<li>排名</li>
+								<li>城市</li>
+								<li id="tle">气温(出现时间)</li>
+							</ul>
+
+							<div id="rank">
+								<!-- <ul>
+									<li>1</li>
+									<li>杭州市</li>
+									<li>浙江省</li>
+									<li>18°(8时)</li>
+								</ul> -->
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="elems" id="elem">
+					<form class="layui-form">
+						<div class="layui-form-item">
+							<div class="layui-input-block" id="radio">
+								<!-- <div>
+									<input type="radio" name="reg" lay-filter="reg" value="0" title="正序">
+									<input type="radio" name="reg" lay-filter="reg" value="1" title="反序">
+								</div> -->
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="maps" id="maps"></div>
+
+		<!-- 此处为捕获页面,点击站点时显示 -->
+		<div class="hide-box">
+			<div class="hide-tle" id="hide-tle">
+				<!-- <span title="浙江省杭州市">浙江省杭州市</span> -->
+				<!-- <p class="layui-icon layui-icon-close laycl" style="cursor: pointer;"></p> -->
+			</div>
+
+			<div class="box_tle">
+				<p class="bor">观测类型</p>
+				<p>观测数值</p>
+			</div>
+
+			<div class="box_box" id="box_box">
+				<!-- <div>
+					<p>1</p>
+					<p>2</p>
+				</div> -->
+			</div>
+		</div>
+	</body>
+	<script src="../lib/layui/layui/layui.js"></script>
+	<script src="../lib/model/echarts.js"></script>
+	<script src="../lib/model/china.js"></script>
+	<script>
+		document.write(
+			'<script src="../js/look.js?t=' + new Date().getTime() + '"><\/script>'
+		);
+	</script>
+</html>

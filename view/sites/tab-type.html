@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="../../lib/layui/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../css/common.css" />
+    <link rel="stylesheet" href="../../css/tabs.css" />
+  </head>
+  <body>
+    <div class="tab">
+      <div id="thead"></div>
+      <div id="tbody"></div>
+    </div>
+    <div id="pag"></div>
+  </body>
+  <script src="../../lib/layui/layui/layui.js"></script>
+  <script>
+    layui
+      .config({
+        base: "../../lib/model/",
+      })
+      .extend({
+        urls: "urls",
+      });
+    layui.use(["urls", "laypage"], function () {
+      var $ = layui.$,
+        urls = layui.urls,
+        url = urls.url,
+        ajax = urls.ajax,
+        laypage = layui.laypage;
+      var page = 1;
+      window.list = function (start, end, id, val) {
+        var value = val == 1 ? "ld" : val == 3 ? "fb" : "zyc";
+        ajax({
+          url: url.details,
+          type: "post",
+          data: {
+            id: id,
+            page_size: page,
+            value: value,
+            start: start,
+            end: end,
+            type: val,
+          },
+          success: function (res) {
+            $("#tbody").empty();
+            var arr = res.data;
+            var total = res.length;
+            total > 10 ? $("#pag").show() : $("#pag").hide();
+            var elem = res.element;
+            var thead = "";
+            for (var e = 0; e < elem.length; e++) {
+              var elemItem = elem[e];
+              thead += "<div>" + elemItem + "</div>";
+            }
+            $("#thead").html(thead);
+            for (var a = 0; a < arr.length; a++) {
+              var arrItem = arr[a];
+              var tbody = "";
+              for (var i = 0; i < arrItem.length; i++) {
+                var item = arrItem[i];
+                tbody += "<div>" + item + "</div>";
+              }
+              $("#tbody").append("<div class='tbody'>" + tbody + "</div>");
+            }
+            laypage.render({
+              elem: "pag",
+              count: total,
+              curr: page,
+              theme: "#5a98de",
+              jump: function (obj, is) {
+                if (!is) {
+                  $("#tbod").empty();
+                  page = obj.curr;
+                  list(start, end, id, val);
+                }
+              },
+            });
+          },
+        });
+      };
+    });
+  </script>
+</html>

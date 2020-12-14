@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>蓝昌</title>
+    <link rel="stylesheet" href="../../lib/layui/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../css/common.css" />
+    <style>
+      .tabs {
+        box-sizing: border-box;
+        background-color: rgba(8, 19, 44, 1);
+        overflow: hidden;
+        color: #fff;
+        height: 500px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="tabs" id="main"></div>
+  </body>
+  <script src="../../lib/layui/layui/layui.js"></script>
+  <script src="../../lib/model/echarts.js"></script>
+  <script>
+    layui
+      .config({
+        base: "../../lib/model/",
+      })
+      .extend({
+        urls: "urls",
+        func: "func",
+      });
+    layui.use(["urls", "func"], function () {
+      var $ = layui.$,
+        urls = layui.urls,
+        url = urls.url,
+        ajax = urls.ajax,
+        func = layui.func;
+      var myChart;
+      initFn();
+      window.list = function (id, day) {
+        ajax({
+          url: url.graph,
+          type: "post",
+          data: {
+            id: id,
+            day: day,
+          },
+          success: function (res) {
+            var nameArr = [];
+            var serArr = [];
+            for (var item in res) {
+              nameArr.push(res[item].name);
+              serArr.push({
+                name: res[item].name,
+                data: res[item].data,
+                type: "line",
+                smooth: true,
+              });
+            }
+            myChart.setOption({
+              legend: {
+                textStyle: {
+                  data: nameArr,
+                },
+              },
+              tooltip: {
+                formatter: function (value) {
+                  var res = "";
+                  for (var i = 0; i < value.length; i++) {
+                    var dataItem = value[i].data;
+                    var obj = dataItem.from;
+                    for (var item in obj) {
+                      res += "<div>" + item + ":" + obj[item] + "</div>";
+                    }
+                  }
+                  return res;
+                },
+              },
+              series: serArr,
+            });
+          },
+        });
+      };
+
+      function initFn() {
+        myChart = echarts.init(document.getElementById("main"));
+        var option = {
+          legend: {
+            icon: "line",
+            top: 20,
+            textStyle: {
+              color: "#fff",
+            },
+            itemWidth: 10, // 设置宽度
+            itemHeight: 30, // 设置高度
+          },
+          grid: {
+            left: "2%",
+            right: "2%",
+            top: "10%",
+            bottom: "5%",
+            containLabel: true,
+          },
+          tooltip: {
+            trigger: "axis",
+            position: ["50%", "10%"],
+            axisPointer: {
+              label: {
+                backgroundColor: "#07a6ff",
+              },
+            },
+          },
+          xAxis: {
+            type: "category",
+            boundaryGap: false,
+            data: [
+              "00时",
+              "01时",
+              "02时",
+              "03时",
+              "04时",
+              "05时",
+              "06时",
+              "07时",
+              "08时",
+              "09时",
+              "10时",
+              "11时",
+              "12时",
+              "13时",
+              "14时",
+              "15时",
+              "16时",
+              "17时",
+              "18时",
+              "19时",
+              "20时",
+              "21时",
+              "22时",
+              "23时",
+            ],
+            axisLabel: {
+              textStyle: {
+                color: "#07a6ff",
+              },
+            },
+            axisLine: {
+              lineStyle: {
+                color: "#07a6ff",
+              },
+            },
+          },
+          yAxis: {
+            //y轴
+            axisLabel: {
+              formatter: "{value}",
+              textStyle: {
+                color: "#07a6ff",
+              },
+            },
+            splitLine: {
+              lineStyle: {
+                color: "#07a6ff",
+              },
+            },
+            axisLine: {
+              show: true,
+              lineStyle: {
+                color: "#07a6ff",
+              },
+            },
+          },
+        };
+        myChart.setOption(option);
+      }
+    });
+  </script>
+</html>

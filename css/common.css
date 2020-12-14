@@ -1,0 +1,18 @@
+* {
+  margin: 0;
+  padding: 0;
+  /* font-size: 0.16rem; */
+  font-size: 16px;
+}
+.lt {
+  float: left;
+}
+
+.rt {
+  float: right;
+}
+
+dl,
+li {
+  list-style: none;
+}

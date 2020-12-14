@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>个人中心</title>
+    <link rel="stylesheet" href="../lib/layui/layui/css/layui.css" />
+    <link rel="stylesheet" href="../lib/dtree/dtree.css" />
+    <link rel="stylesheet" href="../lib/dtree/font/dtreefont.css" />
+    <link rel="stylesheet" href="../css/common.css" />
+    <link rel="stylesheet" href="../css/user.css" />
+  </head>
+  <body>
+    <div class="layui-fluid">
+      <div class="layui-row">
+        <div class="layui-col-xs12">
+          <div class="tle">
+            <p class="lt">
+              个人中心管理
+            </p>
+            <p
+              class="rt layui-icon layui-icon-close"
+              style="cursor: pointer;"
+              id="close"
+            ></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-row">
+        <div class="layui-tab layui-tab-card user" lay-filter="tab">
+          <ul class="layui-tab-title">
+            <li tab-id="1" class="layui-this">站点设置</li>
+            <li tab-id="2">站点实况配置</li>
+            <li tab-id="3">密码修改</li>
+          </ul>
+          <div class="hideTab">
+            <form class="layui-form" id="userSele">
+              <select lay-filter="drop" id="seleBox"></select>
+            </form>
+            <div class="layui-btn add" onclick="lookFn(1)">
+              添加IP
+            </div>
+          </div>
+
+          <div class="layui-tab-content">
+            <!-- 站点设置 -->
+            <div class="layui-tab-item tab-hide layui-show">
+              <div class="tree">
+                <div id="elemTree"></div>
+              </div>
+              <button
+                type="button"
+                class="layui-btn layui-btn-sm obtain"
+                id="treeBtn"
+              >
+                提交
+              </button>
+            </div>
+            <!-- 站点配置 -->
+            <div class="layui-tab-item users">
+              <div class="layui-fluid">
+                <div class="layui-row tab">
+                  <div class="layui-col-xs12">
+                    <table border="1" bordercolor="#131a5f">
+                      <thead align="center">
+                        <tr>
+                          <th>序号</th>
+                          <th>实况名字</th>
+                          <th>实况IP</th>
+                          <th>操作</th>
+                        </tr>
+                      </thead>
+                      <tbody id="tbod" align="center">
+                        <!-- <tr>
+													<td>1</td>
+													<td>实况名字</td>
+													<td>实况IP</td>
+													<td>操作</td>
+												</tr> -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="pag" id="pag"></div>
+            </div>
+            <!-- 密码修改 -->
+            <div class="layui-tab-item tab-hide">
+              <form class="layui-form form" id="form">
+                <div class="layui-form-item">
+                  <label class="layui-form-label">用户名:</label>
+                  <div class="layui-input-block">
+                    <input
+                      type="text"
+                      disabled
+                      id="user"
+                      name="user"
+                      autocomplete="off"
+                      class="layui-input lay_ipt"
+                    />
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                  <label class="layui-form-label">旧密码:</label>
+                  <div class="layui-input-block">
+                    <input
+                      type="password"
+                      name="pass"
+                      required
+                      lay-verify="pass"
+                      autocomplete="off"
+                      placeholder="请输入旧密码"
+                      class="layui-input lay_ipt"
+                    />
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                  <label class="layui-form-label">新密码:</label>
+                  <div class="layui-input-block">
+                    <input
+                      type="password"
+                      id="pass1"
+                      name="pass1"
+                      required
+                      lay-verify="pass1"
+                      autocomplete="off"
+                      placeholder="请输入新密码"
+                      class="layui-input lay_ipt"
+                    />
+                  </div>
+                </div>
+                <div class="layui-form-item">
+                  <label class="layui-form-label">确认密码:</label>
+                  <div class="layui-input-block">
+                    <input
+                      type="password"
+                      name="pass2"
+                      required
+                      lay-verify="pass2"
+                      autocomplete="off"
+                      placeholder="请再次输入新密码"
+                      class="layui-input lay_ipt"
+                    />
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  class="layui-btn layui-btn-sm sub"
+                  lay-submit
+                  lay-filter="form"
+                >
+                  提交
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="layui-fluid addIp" id="addIp">
+      <div class="layui-row">
+        <div class="layui-col-xs8 layui-col-xs-offset2 ip-box">
+          <div class="tle">
+            <p class="lt">
+              实况IP
+            </p>
+            <p
+              class="rt layui-icon layui-icon-close"
+              style="cursor: pointer;"
+              onclick="isHide()"
+            ></p>
+          </div>
+          <form
+            class="layui-form layForm"
+            lay-filter="addForm"
+            id="addForm"
+            style="margin-top: 50px;"
+          >
+            <input type="hidden" name="id" />
+            <div class="layui-form-item">
+              <label class="layui-form-label">所属站点:</label>
+              <div class="layui-input-block lay_ipt lay_sele">
+                <select name="site" id="addSele"></select>
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">实况IP名:</label>
+              <div class="layui-input-block">
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  lay-verify="name"
+                  autocomplete="off"
+                  placeholder="请输入IP名"
+                  class="layui-input lay_ipt"
+                />
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">实况IP:</label>
+              <div class="layui-input-block">
+                <input
+                  type="text"
+                  name="ip"
+                  required
+                  lay-verify="ip"
+                  autocomplete="off"
+                  placeholder="请输入实况IP"
+                  class="layui-input lay_ipt"
+                />
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <div class="layui-input-block">
+                <button
+                  type="submit"
+                  class="layui-btn subbtn"
+                  lay-submit
+                  lay-filter="addIp"
+                >
+                  提交
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="../lib/layui/layui/layui.js"></script>
+  <script>
+    document.write(
+      '<script src="../js/user.js?t=' + new Date().getTime() + '"><\/script>'
+    );
+  </script>
+</html>

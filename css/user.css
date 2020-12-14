@@ -1,0 +1,206 @@
+body {
+  width: 100%;
+  height: 100%;
+  background-color: #08132c;
+}
+.tle {
+  height: 40px;
+  line-height: 40px;
+  font-size: 28px;
+  color: #fff;
+}
+.subbtn {
+  background-color: #5a98de;
+}
+.layForm {
+  font-size: 14px;
+}
+.form {
+  text-align: center;
+  height: 40px;
+}
+.tab {
+  height: 450px;
+  background-color: rgba(8, 19, 44, 1);
+  overflow: hidden;
+  overflow-x: auto;
+}
+.lay_sele {
+  color: #000 !important;
+}
+.lay_ipt {
+  background-color: #112350;
+  color: #fff;
+  border: none;
+}
+
+.lay_ipt .layui-input {
+  background-color: #112350;
+  color: #fff;
+  border: none;
+}
+.user {
+  color: #fff;
+  border: none;
+}
+.user .layui-tab-title {
+  background-color: #0e1e44;
+  border: none;
+  position: relative;
+}
+/* 只是为了控制站点IP的查询 */
+.hideTab {
+  position: absolute;
+  right: 50px;
+  top: 55px;
+  display: none;
+}
+#userSele {
+  float: left;
+  width: 150px;
+  height: 30px;
+  color: #000;
+}
+.add {
+  float: left;
+  height: 30px;
+  line-height: 30px;
+  color: #fff;
+  background-color: #5a98de;
+  margin-left: 10px;
+}
+#userSele input {
+  height: 30px;
+  line-height: 30px;
+  border: 1px solid #3542b5;
+  background-color: #061436;
+  color: #fff;
+}
+
+#userSele input::-moz-placeholder {
+  color: #fff;
+  opacity: 1;
+}
+
+#userSele input:-ms-input-placeholder {
+  color: #fff;
+}
+
+#userSele input::-webkit-input-placeholder {
+  color: #fff;
+}
+
+.user .layui-this {
+  background-color: #5a98de !important;
+  color: #fff !important;
+}
+
+.user .layui-this:after {
+  border: none !important;
+}
+
+.user .tab-hide {
+  overflow: hidden;
+}
+.user .users {
+  height: 525px;
+}
+/* 站点实况配置 */
+.users .layui-fluid {
+  padding: 0;
+}
+.users .tab {
+  height: 480px;
+}
+.users .tab table {
+  width: 100%;
+  height: 100%;
+  border-color: #131a5f;
+}
+.users .tab th {
+  height: 40px;
+  line-height: 40px;
+}
+#tbod tr {
+  height: 26px;
+  line-height: 26px;
+}
+.users .tab th,
+#tbod td {
+  border-color: #131a5f;
+}
+#tbod td i {
+  color: #fff;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.addIp {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  left: 0;
+  top: 0;
+  color: #fff;
+  display: none;
+}
+.ip-box {
+  height: 400px;
+  background-color: rgba(8, 19, 44, 1);
+  padding: 10px 25px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+/* 树形结构 */
+.user .tree {
+  width: 100%;
+  height: 470px;
+  overflow-y: auto;
+}
+
+.user .obtain {
+  width: 60px;
+  height: 40px;
+  background-color: #5a98de;
+  float: right;
+  margin-top: 10px;
+}
+
+.user .layui-tree-txt {
+  color: #fff;
+}
+
+.user .layui-tree-icon .layui-icon {
+  color: #fff;
+}
+
+.user .form {
+  width: 50%;
+  height: 300px;
+  margin: auto;
+  margin-top: 50px;
+}
+
+.user .layui-form-label {
+  width: 20%;
+}
+
+.user .lay_ipt {
+  width: 90%;
+}
+
+.user .sub {
+  width: 60px;
+  height: 40px;
+  background-color: #5a98de;
+  float: right;
+  margin-right: 5%;
+}

@@ -1,0 +1,82 @@
+body {
+  width: 100%;
+  height: 100%;
+  background-color: #08132c;
+}
+.tle {
+  height: 40px;
+  line-height: 40px;
+  font-size: 28px;
+  color: #fff;
+}
+.subbtn {
+  background-color: #5a98de;
+}
+.title {
+  height: 40px;
+  margin: 5px 0;
+  text-align: center;
+}
+
+.block {
+  display: inline-block;
+  color: #fff;
+}
+.block .lt{
+	margin-right: 10px;
+}
+
+.block button {
+  width: 90px;
+  font-size: 14px;
+}
+.sele {
+  width: 150px;
+  height: 40px;
+  color: #333;
+}
+
+.thead,
+.tbody,
+.tfoot {
+  text-align: center;
+  color: #fff;
+}
+#tbody {
+  height: 450px;
+}
+.thead > div,
+.tbody > div,
+.tfoot > div {
+  height: 45px;
+  line-height: 45px;
+  min-width: 95px;
+  background-color: #0e1e44;
+  font-size: 14px;
+  padding: 0 5px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tbody > div {
+  background-color: rgba(8, 19, 44, 1);
+  border: 1px solid #131a5f;
+}
+#pag {
+  height: 30px;
+  text-align: right;
+  margin: 10px 0;
+  box-sizing: border-box;
+  padding-right: 15px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: none;
+}
+.layui-laypage {
+  margin: 0;
+}

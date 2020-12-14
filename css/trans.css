@@ -1,0 +1,154 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+.lt {
+  float: left;
+}
+
+.rt {
+  float: right;
+}
+
+dl,
+li {
+  list-style: none;
+}
+body {
+  width: 100%;
+  height: 100%;
+  background-color: #08132c;
+}
+
+.tle {
+  height: 40px;
+  line-height: 40px;
+  box-sizing: border-box;
+  color: #fff;
+  font-size: 28px;
+}
+.subbtn {
+  background-color: #5a98de;
+}
+.title {
+  height: 40px;
+  margin: 5px 0;
+  text-align: center;
+}
+
+.form {
+  display: inline-block;
+}
+.block {
+  float: left;
+  color: #fff;
+}
+.block button {
+  font-size: 14px;
+}
+.subbtn {
+  background-color: #5a98de;
+  margin-left: 5px;
+}
+.sele {
+  width: 150px;
+  height: 40px;
+  color: #333;
+}
+.lay_sele {
+  color: #000 !important;
+}
+
+/* ///////// */
+.tab {
+  height: 550px;
+  color: #fff;
+  overflow-y: auto;
+}
+.layui-form-item .layui-form-checkbox[lay-skin="primary"] {
+  margin-top: 0;
+}
+.item {
+  height: 48px;
+  line-height: 48px;
+  display: flex;
+  display: -webkit-flex;
+}
+.item > div {
+  min-width: 125px;
+  height: 46px;
+  line-height: 46px;
+  font-size: 14px;
+  background-color: rgba(8, 19, 44, 1);
+  padding: 0 5px;
+  border: 1px solid #131a5f;
+  box-sizing: border-box;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.item > div.name {
+  width: 125px !important;
+  min-width: 125px !important;
+  max-width: 125px !important;
+}
+.item > div.intv {
+  width: 270px !important;
+  min-width: 270px !important;
+  max-width: 270px !important;
+  display: flex;
+  display: -webkit-flex;
+}
+.intv > div {
+  width: 50px;
+  margin-left: 2px;
+  margin-right: 2px;
+  text-align: center;
+}
+.ipt {
+  color: #333;
+  height: 26px;
+  line-height: 26px;
+  margin-top: 10px;
+}
+.ipt input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  text-indent: 5px;
+}
+.item > div.time {
+  width: 300px !important;
+  min-width: 300px !important;
+  max-width: 300px !important;
+}
+.item > div.type {
+  width: 330px !important;
+  min-width: 330px !important;
+  max-width: 330px !important;
+}
+.layui-form-label {
+  padding: 9px;
+  line-height: 28px;
+}
+.item div input {
+  min-width: 20px;
+}
+.layui-form-checkbox[lay-skin="primary"] span {
+  color: #fff;
+}
+#pag {
+  height: 0.3rem;
+  text-align: right;
+  margin: 0.05rem 0;
+  box-sizing: border-box;
+  padding-right: 15px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: none;
+}
+.layui-laypage {
+  margin: 0;
+}

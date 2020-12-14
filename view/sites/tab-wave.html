@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>蓝昌</title>
+    <link rel="stylesheet" href="../../lib/layui/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../css/common.css" />
+    <link rel="stylesheet" href="../../css/tab.css" />
+  </head>
+
+  <body>
+    <div class="tab">
+      <div id="thead">
+        <div>站点</div>
+        <div>日期</div>
+        <div>有效波高</div>
+        <div>有效周期</div>
+        <div>1/10波高</div>
+        <div>1/10周期</div>
+        <div>最大波高</div>
+        <div>最大周期</div>
+      </div>
+      <div id="tbody"></div>
+    </div>
+    <div id="pag"></div>
+  </body>
+  <script src="../../lib/layui/layui/layui.js"></script>
+  <script>
+    layui
+      .config({
+        base: "../../lib/model/",
+      })
+      .extend({
+        urls: "urls",
+      });
+    layui.use(["urls", "laypage"], function () {
+      var $ = layui.$,
+        urls = layui.urls,
+        url = urls.url,
+        ajax = urls.ajax,
+        laypage = layui.laypage;
+      var page = 1;
+      window.list = function (start, end, id, val) {
+        ajax({
+          url: url.details,
+          type: "post",
+          data: {
+            id: id,
+            page_size: page,
+            value: val,
+            start: start,
+            end: end,
+            type: 2,
+          },
+          success: function (res) {
+            $("#tbody").empty();
+            var arr = res.data;
+            var total = res.length;
+            total > 10 ? $("#pag").show() : $("#pag").hide();
+            for (var i = 0; i < arr.length; i++) {
+              var arrItem = arr[i];
+              var str =
+                "<div class='tbody'>" +
+                "<div title=" +
+                arrItem.name +
+                ">" +
+                arrItem.name +
+                "</div>" +
+                "<div title=" +
+                arrItem.time +
+                ">" +
+                arrItem.time +
+                "</div>" +
+                "<div>" +
+                arrItem.bg +
+                "</div>" +
+                "<div>" +
+                arrItem.zq +
+                "</div>" +
+                "<div>" +
+                arrItem.tenthbg +
+                "</div>" +
+                "<div>" +
+                arrItem.tenthzq +
+                "</div>" +
+                "<div>" +
+                arrItem.zbg +
+                "</div>" +
+                "<div>" +
+                arrItem.zzq +
+                "</div>" +
+                "</div>";
+              $("#tbody").append(str);
+            }
+            laypage.render({
+              elem: "pag",
+              count: total,
+              curr: page,
+              theme: "#5a98de",
+              jump: function (obj, is) {
+                if (!is) {
+                  page = obj.curr;
+                  list(start, end, id, val);
+                }
+              },
+            });
+          },
+        });
+      };
+    });
+  </script>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link rel="stylesheet" href="../lib/layui/layui/css/layui.css" />
+		<link rel="stylesheet" href="../css/home.css" />
+		<title>海洋观测数据业务化应用平台</title>
+	</head>
+
+	<body>
+		<!-- 头部 -->
+		<div class="head">
+			<div class="title">
+				海洋观测数据业务化应用平台
+			</div>
+			<div id="date"></div>
+
+			<div class="sign">
+				<div class="site lt">
+					<span style="margin-right: 0;">当前站:</span>
+					<span id="site">未知</span>
+					<span class="layui-icon layui-icon-refresh-3 load" onclick="load()"></span>
+				</div>
+
+				<div class="lt user" id="user">非法用户</div>
+				<img src="../static/head.png" title="个人中心" alt="个人中心" class="lt" name="openHtm" type="0" url="./user.html" />
+				<div class="layui-btn layui-btn-normal layui-btn-xs lt out" onclick="outFn()">
+					退出
+				</div>
+			</div>
+		</div>
+		<!-- 中间大地图 -->
+		<div id="maps" class="main"></div>
+
+		<div class="lt_list" id="lt_list">
+			<div class="lt_list_pos">
+				<div class="lt_top">
+					<div class="lt_head">
+						<p class="lt_tle">今日传输量</p>
+						<img src="../static/l-img.png" alt="" />
+					</div>
+					<div class="top_">
+						<div class="pro">
+							<div class="lt">
+								文件接收量:
+							</div>
+							<div class="lt pro_" id="dirs">
+								0
+							</div>
+							<div class="rt">
+								个
+							</div>
+						</div>
+						<div class="pro">
+							<div class="lt">
+								数据接收量:
+							</div>
+							<div class="lt pro_" id="sizes">
+								0
+							</div>
+							<div class="rt" id="unit">
+								KB
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 左侧的饼状图 -->
+				<div class="lt_btm">
+					<div class="lt_head">
+						<p class="lt_tle">数据到报</p>
+						<img src="../static/l-img.png" alt="" />
+					</div>
+					<div class="in_">
+						<div class="ring">
+							<div class="lt_ring pie" id="ring0"></div>
+							<div class="rt_ring pie" id="ring1"></div>
+						</div>
+						<div class="ring">
+							<div class="lt_ring pie" id="ring2"></div>
+							<div class="rt_ring pie" id="ring3"></div>
+						</div>
+					</div>
+				</div>
+
+				<!-- 左侧各站点报警信息 -->
+				<div class="lt_head">
+					<p class="lt_tle">各站点警报信息</p>
+					<img src="../static/l-img.png" alt="" />
+				</div>
+				<div class="btm_" id="roll">
+					<!-- <li>
+						<span class="lt">杭州警报信息</span>
+						<span class="rt">2020-10-10</span>
+					</li> -->
+				</div>
+
+
+				<div class="ionic">
+					<div class="lt_head">
+						<p class="lt_tle">图标</p>
+						<img src="../static/l-img.png" alt="" />
+					</div>
+
+					<div class="ion_box">
+						<div class="item">
+							<img src="../static/clr1.png" class="lt" />
+							<p class="lt">正常</p>
+						</div>
+						<div class="item">
+							<img src="../static/clr2.png" class="lt" />
+							<p class="lt">缺报</p>
+						</div>
+						<div class="item">
+							<img src="../static/clr3.png" class="lt" />
+							<p class="lt">维护</p>
+						</div>
+						<div class="item">
+							<img src="../static/clr4.png" class="lt" />
+							<p class="lt">报警</p>
+						</div>
+					</div>
+				</div>
+
+				<p class="sideImg" onclick="sideFn(1,this,'lt_list','l_')" is="2"></p>
+			</div>
+		</div>
+
+		<!-- 中间下面 -->
+		<div class="btm_list">
+			<div class="item_">
+				<p>数据监控</p>
+				<div class="item_hide">
+					<p name="openHtm" type="0" url="./data/station.html">站点监控</p>
+					<p name="openHtm" type="2" url="./data/reco.html">报警记录</p>
+				</div>
+			</div>
+			<div class="item_">
+				<p>数据管理</p>
+				<div class="item_hide">
+					<p name="openHtm" type="2" url="./data/toNer.html">月统计</p>
+					<p name="openHtm" type="2" url="./data/sites.html">站点数据</p>
+					<p name="openHtm" type="1" url="./data/load.html">数据下载</p>
+					<p name="openHtm" type="2" url="./data/rate.html">传输率统计</p>
+				</div>
+			</div>
+
+			<div class="item_">
+				<p>数据传输</p>
+				<div class="item_hide">
+					<!-- 	<p name="openHtm" type="2" url="./data/tide.html">沿海潮位</p>
+					<p name="openHtm" type="2" url="./data/wave.html">沿海波浪</p> -->
+					<p name="openHtm" type="2" url="./data/tran.html">政务云数据</p>
+					<p name="openHtm" type="2" url="./data/trann.html">海洋仓数据</p>
+					<!-- <p name="openHtm" type="2" url="./data/live.html">实况要输传输</p> -->
+				</div>
+			</div>
+
+			<div class="item_">
+				<p>系统设置</p>
+				<div class="item_hide">
+					<p name="openHtm" type="2" url="./system/site.html">站点信息</p>
+					<p name="openHtm" type="2" url="./system/info.html">人员信息</p>
+					<p name="openHtm" type="2" url="./system/limit.html">权限管理</p>
+					<p name="openHtm" type="2" url="./system/call.html">报警参数信息</p>
+				</div>
+			</div>
+		</div>
+
+		<!-- 右侧 -->
+		<div class="rt_list" id="rt_list">
+			<div class="rt_list_pos">
+				<div class="rt_top">
+					<div class="lt_head">
+						<p class="lt_tle">站点分钟数据</p>
+						<img src="../static/l-img.png" alt="" />
+						<div class="rt_time">
+							<text class="time">更新时间:</text>
+							<text id="time"></text>
+						</div>
+					</div>
+
+					<div class="_top">
+						<ol id="ol">
+							<!-- <ul>
+								<li>
+									<p class="p1">海温海温海温海温海温海温海温</p>
+									<p class="p2">30</p>
+								</li>
+							</ul> -->
+						</ol>
+					</div>
+				</div>
+
+				<!-- 右侧的折线图 -->
+				<div class="rt_btm">
+					<div class="lt_head">
+						<p class="lt_tle">数据曲线图</p>
+						<img src="../static/l-img.png" alt="" />
+						<form class="layui-form line_sele">
+							<select lay-filter="elem" id="seleBox"></select>
+						</form>
+					</div>
+				</div>
+
+				<div class="_in" id="main"></div>
+
+				<!-- 右侧的图层筛选 -->
+				<div class="rt_in">
+					<div class="lt_head">
+						<p class="lt_tle">站点</p>
+						<img src="../static/l-img.png" alt="" />
+					</div>
+					<div class="_btm">
+						<!-- <div class="_in"> -->
+						<form class="layui-form">
+							<div class="layui-form-item">
+								<div class="layui-input-block check">
+									<input type="checkbox" value="雷达" lay-skin="primary" lay-filter="check" title="雷达" checked />
+									<input type="checkbox" value="浮标" lay-skin="primary" lay-filter="check" title="浮标" checked />
+									<input type="checkbox" value="志愿船" lay-skin="primary" lay-filter="check" title="志愿船" checked />
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<div class="layui-input-block check">
+									<input type="checkbox" value="省自建" lay-skin="primary" lay-filter="check" title="省自建" checked />
+									<!-- <input type="checkbox" value="个人站" lay-skin="primary" lay-filter="check" title="个人站" checked>
+                <input type="checkbox" value="地方站" lay-skin="primary" lay-filter="check" title="地方站" checked> -->
+									<input type="checkbox" value="国家站" lay-skin="primary" lay-filter="check" title="国家站" checked />
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="ionic">
+					<div class="lt_head">
+						<p class="lt_tle">图标</p>
+						<img src="../static/l-img.png" alt="" />
+					</div>
+					<div class="ion_box">
+
+						<div class="item">
+							<img src="../static/gjz.png" class="lt" />
+							<p class="lt">国家站</p>
+						</div>
+						<div class="item">
+							<img src="../static/gcz.png" class="lt" />
+							<p class="lt">地方站</p>
+						</div>
+						<div class="item">
+							<img src="../static/ld.png" class="lt" />
+							<p class="lt">雷达</p>
+						</div>
+						<div class="item">
+							<img src="../static/fb.png" class="lt" />
+							<p class="lt">浮标</p>
+						</div>
+						<div class="item">
+							<img src="../static/chuan.png" class="lt" />
+							<p class="lt">志愿船</p>
+						</div>
+					</div>
+				</div>
+				<p class="sideImg" onclick="sideFn(2,this,'rt_list','r_')" is="2"></p>
+			</div>
+		</div>
+
+		<!-- 此处为捕获页面,点击站点时显示 -->
+		<div class="hide-box" id="hideBox">
+			<div class="hide-tle" id="hide-tle">
+				<!-- <span title="浙江省杭州市">浙江省杭州市</span> -->
+				<!-- <p class="layui-icon layui-icon-close laycl" style="cursor: pointer;"></p> -->
+			</div>
+			<div class="box_tle">
+				<p class="bor">观测类型</p>
+				<p>观测数值</p>
+			</div>
+			<div class="box_box" id="box_box">
+				<!-- <div>
+					<p>1</p>
+					<p>2</p>
+				</div> -->
+			</div>
+			<div class="box_btn">
+				<button class="layui-btn layui-btn-sm" id="btn">数据文件接收</button>
+			</div>
+		</div>
+
+		<!-- 上方弹出 -->
+		<div class="ear_list" id="ear_box">
+			<div>
+				<p class="layui-icon layui-icon-close rt ear_tle" style="cursor: pointer;" id="collMon"></p>
+				<div id="ear_list">
+					<!-- <ul>
+						<li>浮标F103(经纬度:120,30),浮标与原位置偏移89.74公里,现在经纬度(130,40)浮标F103(经纬度:120,30),浮标与原位置偏移89.74公里,现在经纬度(130,40)</li>
+						<li>浮标F103(经纬度:120,30),浮标与原位置偏移89.74公里,现在经纬度(130,40)</li>
+						<li>浮标F103(经纬度:120,30),浮标与原位置偏移89.74公里,现在经纬度(130,40)</li>
+						<li>浮标F103(经纬度:120,30),浮标与原位置偏移89.74公里,现在经纬度(130,40)</li>
+					</ul> -->
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+	</body>
+	<script src="../lib/layui/layui/layui.js"></script>
+	<script src="../lib/model/echarts.js"></script>
+	<script src="../lib/model/china.js"></script>
+	<script>
+		document.write(
+			'<script src="../js/home.js?t=' + new Date().getTime() + '"><\/script>'
+		);
+	</script>
+</html>

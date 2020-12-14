@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>海洋观测数据业务化应用平台</title>
+    <link rel="stylesheet" href="./lib/layui/layui/css/layui.css" />
+    <!-- <link rel="stylesheet" href="./css/common.css" /> -->
+    <link rel="stylesheet" href="./css/index.css" />
+  </head>
+  <body>
+    <div id="login">
+      <div class="lt">
+        <div class="earth">
+          <img src="./static/bg3.png" />
+        </div>
+      </div>
+      <div class="rt">
+        <div class="tle">海洋观测数据业务化应用平台</div>
+        <div class="form">
+          <div class="bg"></div>
+          <form class="layui-form loginform">
+            <div class="layui-form-item loginTle">
+              系统登录
+            </div>
+            <div class="layui-form-item loginItem">
+              <label class="layui-form-label label">
+                <img src="static/user.png" />
+              </label>
+              <div class="layui-input-inline rtIpt">
+                <input
+                  type="text"
+                  name="user"
+                  id="user"
+                  required
+                  lay-verify="user"
+                  placeholder="请输入账号"
+                  autocomplete="off"
+                  class="layui-input"
+                />
+              </div>
+            </div>
+
+            <div class="layui-form-item loginItem">
+              <label class="layui-form-label label">
+                <img src="static/pass.png" />
+              </label>
+              <div class="layui-input-inline rtIpt">
+                <input
+                  type="password"
+                  name="pass"
+                  id="pass"
+                  required
+                  lay-verify="pass"
+                  placeholder="请输入密码"
+                  autocomplete="off"
+                  class="layui-input"
+                />
+              </div>
+            </div>
+
+            <div class="layui-form-item loginType">
+              <div class="layui-input-block">
+                <input
+                  type="radio"
+                  name="cate"
+                  value="1"
+                  title="监控系统"
+                  checked=""
+                />
+                <input type="radio" name="cate" value="2" title="查询系统" />
+              </div>
+            </div>
+
+            <div class="layui-form-item">
+              <div class="layui-input-block btnBox">
+                <button
+                  type="submit"
+                  class="layui-btn sub_btn"
+                  lay-submit
+                  lay-filter="login"
+                >
+                  登录
+                </button>
+              </div>
+            </div>
+
+            <div class="layui-form-item desc">
+              技术支持:杭州蓝昌科技有限公司 电话:0571-87357882
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="./lib/layui/layui/layui.js"></script>
+  <script>
+    layui
+      .config({
+        base: "lib/model/",
+      })
+      .extend({
+        urls: "urls",
+        func: "func",
+      });
+    layui.use(["urls", "func", "form"], function () {
+      var urls = layui.urls,
+        func = layui.func,
+        url = layui.urls.url,
+        ajax = layui.urls.ajax,
+        layForm = layui.form,
+        lay = layui.layer;
+      layForm.verify({
+        user: function (val) {
+          if (!func.trimFn(val)) {
+            return "请输入用户名!";
+          }
+        },
+        pass: function (val) {
+          if (!func.trimFn(val)) {
+            return "请输入密码!";
+          }
+        },
+      });
+      layForm.on("submit(login)", function (data) {
+        ajax({
+          url: url.login,
+          type: "post",
+          data: {
+            username: data.field.user,
+            password: data.field.pass,
+          },
+          success: function (res) {
+            var perm = res.permission; //1为管理员,2为普通人员
+            var x = res.authority; //后台返回的权限,1为观测,2位查询,3位全部
+            var y = data.field.cate;
+            var url;
+            if (x == 3) {
+              y == 1 ? (url = "./view/home.html") : (url = "./view/look.html");
+            } else {
+              if (y == 1 && y == x) {
+                url = "./view/home.html";
+              } else if (y == 2 && y == x) {
+                url = "./view/look.html";
+              } else {
+                lay.msg("你没有该系统的权限！");
+              }
+            };
+            // var url="./view/look.html";
+
+            var temp = {
+              iden: perm,
+              token: res.token,
+              user: res.username,
+              id: res.id,
+            };
+            layui.sessionData("home", {
+              key: "temp",
+              value: temp,
+            });
+            if (!url) {
+              return false;
+            }
+            window.location.href = url;
+          },
+          error: function (err) {
+            if (err.status == 400) {
+              var err = err.responseJSON;
+              var objArr = Object.keys(err);
+              lay.msg(err[objArr[0]]);
+            }
+          },
+        });
+        return false;
+      });
+    });
+  </script>
+</html>

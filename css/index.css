@@ -1,0 +1,187 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+.lt {
+  float: left;
+}
+
+.rt {
+  float: right;
+}
+
+dl,
+li {
+  list-style: none;
+}
+body {
+  background: url("../static/bg1.png") no-repeat;
+  -webkit-background-size: 100% 100%;
+  background-size: 100% 100%;
+}
+
+#login {
+  width: 100vw;
+  height: 100vh;
+  background-color: #eee;
+  position: relative;
+  background: url("../static/bg2.png") no-repeat;
+  -webkit-background-size: 100% 100%;
+  background-size: 100% 100%;
+}
+
+.imgBox {
+  float: left;
+}
+
+#login .lt {
+  width: 50%;
+}
+
+#login .rt {
+  width: 50%;
+}
+
+.earth {
+  width: 665px;
+  height: 665px;
+}
+
+.earth img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin-left: 245px;
+  /* margin-left: 170px; */
+  margin-top: 40px;
+}
+
+.tle {
+  font-size: 45px;
+  background-image: -webkit-linear-gradient(left, #3581e3, #499bf0, #66c0f5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  margin-top: 120px;
+  margin-bottom: 50px;
+}
+.form {
+  width: 530px;
+  height: 523px;
+  margin: auto;
+  border: 1px solid rgba(0, 0, 0, 0);
+  position: relative;
+}
+.bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 530px;
+  height: 523px;
+  background: url("../static/ionc1.png") no-repeat;
+  -webkit-background-size: 100% 100%;
+  background-size: 100% 100%;
+}
+.loginform {
+  width: 455px;
+  height: 450px;
+  margin: 0 auto;
+  background-color: #333c48;
+  margin-top: 25px;
+  border-radius: 30px;
+}
+.loginTle {
+  text-align: center;
+  font-size: 24px;
+  color: #fff;
+  height: 100px;
+  line-height: 100px;
+  margin-bottom: 0;
+}
+.loginItem {
+  width: 400px;
+  height: 60px;
+  background-color: #49515c;
+  margin: auto;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+.loginType {
+  color: #fff;
+  font-size: 24px;
+
+  /* margin-bottom: 51px; */
+}
+.label {
+  width: 21px;
+  height: 25px;
+  margin: 0;
+  padding: 0;
+  margin-left: 25px;
+  margin-top: 17px;
+  margin-right: 25px;
+}
+.layui-form-item .rtIpt {
+  width: 300px;
+  height: 50px;
+  margin-top: 5px;
+}
+.layui-form-item .rtIpt input {
+  width: 100%;
+  height: 100%;
+  background-color: #49515c;
+  font-size: 20px;
+  border: none;
+  color: #fff;
+}
+.btnBox {
+  width: 400px;
+  height: 60px;
+  margin: auto;
+}
+.sub_btn {
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  margin-bottom: 20px;
+  font-size: 24px;
+  background-color: #5a98de;
+  background: linear-gradient(to right, #6fcbf7, #3485ee);
+}
+.desc {
+  text-align: center;
+  color: #c3c3c3;
+  font-size: 14px;
+}
+input::-webkit-input-placeholder {
+  color: white;
+}
+input:-moz-placeholder {
+  color: white;
+}
+input::-moz-placeholder {
+  color: white;
+}
+input:-ms-input-placeholder {
+  color: white;
+}
+.layui-layer-setwin {
+  display: none !important;
+}
+@media screen and (min-height: 950px) {
+  .earth img {
+    margin-top: 120px;
+  }
+  .tle {
+    margin-top: 190px;
+    margin-bottom: 80px;
+  }
+}
+
+@media screen and (max-width: 1680px) {
+  .earth img {
+    margin-left: 170px;
+  }
+}
+

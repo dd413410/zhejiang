@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>蓝昌</title>
+    <link rel="stylesheet" href="../../lib/layui/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../css/common.css" />
+    <link rel="stylesheet" href="../../css/tab.css" />
+  </head>
+  <body>
+    <div class="tab">
+      <div id="thead">
+        <div>站点</div>
+        <div>日期</div>
+        <div>21时</div>
+        <div>22时</div>
+        <div>23时</div>
+        <div>0时</div>
+        <div>1时</div>
+        <div>2时</div>
+        <div>3时</div>
+        <div>4时</div>
+        <div>5时</div>
+        <div>6时</div>
+        <div>7时</div>
+        <div>8时</div>
+        <div>9时</div>
+        <div>10时</div>
+        <div>11时</div>
+        <div>12时</div>
+        <div>13时</div>
+        <div>14时</div>
+        <div>15时</div>
+        <div>16时</div>
+        <div>17时</div>
+        <div>18时</div>
+        <div>19时</div>
+        <div>20时</div>
+      </div>
+      <div id="tbody"></div>
+    </div>
+    <div id="pag"></div>
+  </body>
+  <script src="../../lib/layui/layui/layui.js"></script>
+  <script>
+    layui
+      .config({
+        base: "../../lib/model/",
+      })
+      .extend({
+        urls: "urls",
+      });
+    layui.use(["urls", "laypage"], function () {
+      var $ = layui.$,
+        urls = layui.urls,
+        url = urls.url,
+        ajax = urls.ajax,
+        laypage = layui.laypage;
+      var page = 1;
+      window.list = function (start, end, id, val) {
+        ajax({
+          url: url.details,
+          type: "post",
+          data: {
+            id: id,
+            page_size: page,
+            value: val,
+            start: start,
+            end: end,
+            type: 2,
+          },
+          success: function (res) {
+            $("#tbody").empty();
+            var arr = res.data;
+            var total = res.length;
+            total > 10 ? $("#pag").show() : $("#pag").hide();
+            for (var i = 0; i < arr.length; i++) {
+              var arrItem = arr[i].data;
+              var diva =
+                "<div title=" +
+                arr[i].name +
+                ">" +
+                arr[i].name +
+                "</div>" +
+                "<div title=" +
+                arr[i].time +
+                ">" +
+                arr[i].time +
+                "</div>";
+              var divb = "";
+              for (var j = 0; j < arrItem.length; j++) {
+                divb += "<div>" + arrItem[j] + "</div>";
+              }
+              var str = "<div class='tbody'>" + diva + divb + "</div>";
+              $("#tbody").append(str);
+            }
+            laypage.render({
+              elem: "pag",
+              count: total,
+              curr: page,
+              theme: "#5a98de",
+              jump: function (obj, is) {
+                if (!is) {
+                  page = obj.curr;
+                  list(start, end, id, val);
+                }
+              },
+            });
+          },
+        });
+      };
+    });
+  </script>
+</html>

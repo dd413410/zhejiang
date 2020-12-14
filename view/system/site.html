@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>站点信息</title>
+		<link rel="stylesheet" href="../../lib/layui/layui/css/layui.css" />
+		<link rel="stylesheet" href="../../css/common.css" />
+		<link rel="stylesheet" href="../../css/site.css" />
+	</head>
+	<body>
+		<div class="layui-fluid">
+			<div class="layui-row">
+				<div class="layui-col-xs12">
+					<div class="tle">
+						<p class="lt">
+							站点信息
+						</p>
+						<p class="rt layui-icon layui-icon-close" style="cursor: pointer;" id="close"></p>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row title">
+				<div class="block">
+					<form class="layui-form lt lay_sele">
+						<div class="sele">
+							<select lay-filter="headSele">
+								<option value="2">观测站</option>
+								<option value="1">雷达</option>
+								<option value="3">浮标</option>
+								<option value="4">志愿船</option>
+							</select>
+						</div>
+					</form>
+					<div class="layui-input-block lt" style="margin-left: 10px;">
+						<input type="text" placeholder="请输入内容" class="layui-input look" id="look" />
+					</div>
+					<div class="lt">
+						<button class="layui-btn subbtn" id="sear">
+							<i class="layui-icon layui-icon-search"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-row count">
+				<div class="layui-col-xs4">
+					<button class="layui-btn subbtn" onclick="operFn('1')">
+						添加站点
+					</button>
+				</div>
+				<div class="layui-col-xs4 layui-col-md-offset4 num">
+					共有数据<span id="count">0</span>条
+				</div>
+			</div>
+
+			<div class="layui-row thead">
+				<div class="layui-col-xs1">站点名</div>
+				<div class="layui-col-xs1">站类型</div>
+				<div class="layui-col-xs1">站代码</div>
+				<div class="layui-col-xs1">站名代码</div>
+				<div class="layui-col-xs1">区站号</div>
+				<div class="layui-col-xs1">观测类型</div>
+				<div class="layui-col-xs1">经度</div>
+				<div class="layui-col-xs1">纬度</div>
+				<div class="layui-col-xs1">所属站点</div>
+				<div class="layui-col-xs1">IP</div>
+				<div class="layui-col-xs2">操作</div>
+			</div>
+			<div class="layui-row" id="tbody"></div>
+			<div id="pag"></div>
+		</div>
+		<!--添加-->
+		<div class="layui-fluid lim" id="add">
+			<div class="layui-row">
+				<div class="layui-col-xs8 layui-col-xs-offset2 site-box">
+					<div class="tle">
+						<p class="lt" id="tle">
+							添加站点
+						</p>
+						<p class="rt layui-icon layui-icon-close" style="cursor: pointer;" onclick="closeFn()"></p>
+					</div>
+					<form class="layui-form layForm" lay-filter="addForm" id="addForm">
+						<div class="layui-form-item">
+							<label class="layui-form-label">所属类别:</label>
+							<div class="layui-input-block lay_ipt lay_sele">
+								<select name="of_type" id="dibl" lay-filter="dibl">
+									<option value="2">观测站</option>
+									<option value="1">雷达</option>
+									<option value="3">浮标</option>
+									<option value="4">志愿船</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="site-item">
+							<input type="hidden" name="id" />
+							<div class="layui-form-item">
+								<label class="layui-form-label">站点类别:</label>
+								<div class="layui-input-block lay_ipt lay_sele">
+									<select name="stationCategory">
+										<option value="省自建">省自建</option>
+										<option value="国家站">国家站</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="layui-form-item">
+								<label class="layui-form-label">站点类型:</label>
+								<div class="layui-input-block lay_ipt lay_sele">
+									<select name="stationType" id="stationType">
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="site-item">
+							<input type="hidden" name="id" />
+							<div class="layui-form-item">
+								<label class="layui-form-label">站点名:</label>
+								<div class="layui-input-block">
+									<input type="text" name="site_name" required lay-verify="site_name" autocomplete="off" placeholder="请输入站点名"
+									 class="layui-input lay_ipt" />
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">观测类型:</label>
+								<div class="layui-input-block lay_ipt lay_sele">
+									<select name="look_type" id="looks" lay-filter="look">
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="site-item">
+							<div class="layui-form-item">
+								<label class="layui-form-label">站代码:</label>
+								<div class="layui-input-block">
+									<input type="text" name="site_code" required lay-verify="site_code" autocomplete="off" placeholder="请输入站代码"
+									 class="layui-input lay_ipt" />
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">站名代码:</label>
+								<div class="layui-input-block">
+									<input type="text" name="site_name_code" required lay-verify="site_name_code" autocomplete="off" placeholder="请输入站名代码"
+									 class="layui-input lay_ipt" />
+								</div>
+							</div>
+						</div>
+
+						<div class="site-item" id="siteElem">
+							<div class="layui-form-item">
+								<label class="layui-form-label">区站号:</label>
+								<div class="layui-input-block">
+									<input type="text" name="station_num" autocomplete="off" placeholder="请输入区站号" class="layui-input lay_ipt" />
+								</div>
+							</div>
+
+							<div class="layui-form-item">
+								<label class="layui-form-label">IP地址:</label>
+								<div class="layui-input-block">
+									<input type="text" name="ip" autocomplete="off" placeholder="请输入IP地址" class="layui-input lay_ipt" />
+								</div>
+							</div>
+						</div>
+
+						<div class="site-item">
+							<div class="layui-form-item">
+								<label class="layui-form-label no_site_">经度:</label>
+								<label class="layui-form-label siet_log_lat">经度(潮位):</label>
+								<div class="layui-input-block">
+									<input type="text" name="longitude" autocomplete="off" placeholder="请输入经度" class="layui-input lay_ipt" />
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label no_site_">纬度:</label>
+								<label class="layui-form-label siet_log_lat">纬度(潮位):</label>
+								<div class="layui-input-block">
+									<input type="text" name="latitude" autocomplete="off" placeholder="请输入纬度" class="layui-input lay_ipt" />
+								</div>
+							</div>
+						</div>
+
+						<div class="site-item siet_log_lat">
+							<div class="layui-form-item">
+								<label class="layui-form-label">经度(气象):</label>
+								<div class="layui-input-block">
+									<input type="text" name="real_lon" autocomplete="off" placeholder="请输入经度(气象)" class="layui-input lay_ipt" />
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">纬度(气象):</label>
+								<div class="layui-input-block">
+									<input type="text" name="real_lat" autocomplete="off" placeholder="请输入纬度(气象)" class="layui-input lay_ipt" />
+								</div>
+							</div>
+						</div>
+
+						<div class="site-item">
+							<div class="layui-form-item">
+								<label class="layui-form-label">所属站点:</label>
+								<div class="layui-input-block lay_ipt lay_sele">
+									<select name="of_site" lay-filter="drop" id="seleBox"></select>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">站类型:</label>
+								<div class="layui-input-block lay_ipt lay_sele">
+									<select name="site_category" id="site" lay-filter="look">
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<div class="site-item">
+							<div class="layui-form-item">
+								<label class="layui-form-label">延时时间:</label>
+								<div class="layui-input-block">
+									<input type="number" min="1" name="time_m" autocomplete="off" placeholder="请输入延时时间(分钟)" class="layui-input lay_ipt" />
+								</div>
+							</div>
+
+							<div class="layui-form-item">
+								<label class="layui-form-label">接收时间:</label>
+								<div class="layui-input-block">
+									<input type="number" min="1" name="time_h" autocomplete="off" placeholder="请输入接收时间(分钟)" class="layui-input lay_ipt" />
+								</div>
+							</div>
+						</div>
+
+						<div class="layui-form-item">
+							<label class="layui-form-label">上报要素:</label>
+							<div class="layui-input-block elem" id="elem"></div>
+						</div>
+
+						<div class="site-item">
+							<div class="layui-form-item">
+								<label class="layui-form-label">区域:</label>
+								<div class="layui-input-block">
+									<input type="radio" name="reg" value="0" title="省内" checked="" lay-filter="reg" />
+									<input type="radio" name="reg" value="2" title="省外" lay-filter="reg" />
+								</div>
+							</div>
+
+							<div class="layui-form-item" id="radioIs">
+								<label class="layui-form-label">是否观测:</label>
+								<div class="layui-input-block">
+									<input type="radio" name="is" value="1" title="是" checked="" />
+									<input type="radio" name="is" value="0" title="否" />
+								</div>
+							</div>
+						</div>
+
+						<div class="site-item">
+							<div class="layui-form-item">
+								<label class="layui-form-label">站点状态:</label>
+								<div class="layui-input-block">
+									<input type="radio" name="uphold" value="0" title="正常" checked="" />
+									<input type="radio" name="uphold" value="1" title="维护" />
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">是否常驻:</label>
+								<div class="layui-input-block">
+									<input type="radio" name="resident" value="1" title="是" checked="" />
+									<input type="radio" name="resident" value="0" title="否" />
+								</div>
+							</div>
+						</div>
+
+						<div class="layui-form-item">
+							<div class="layui-input-block">
+								<button type="submit" class="layui-btn subbtn" lay-submit lay-filter="sub">
+									提交
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!--设置警戒值-->
+		<div class="layui-fluid setup" id="setUp">
+			<div class="layui-row">
+				<div class="layui-col-xs6 layui-col-xs-offset3 lim-chang-box">
+					<div class="tle">
+						<p class="lt">
+							设置警戒值
+						</p>
+						<p class="rt layui-icon layui-icon-close" style="cursor: pointer;" id="setFn"></p>
+					</div>
+					<form class="layui-form layForm" lay-filter="setForm" id="setForm">
+						<input type="hidden" name="siteName" />
+						<input type="hidden" name="siteId" />
+						<div class="layui-form-item">
+							<label class="layui-form-label">蓝色值:</label>
+							<div class="layui-input-block">
+								<input type="number" name="blue" required lay-verify="blue" autocomplete="off" placeholder="请输入蓝色警戒值"
+								 autocomplete="off" class="layui-input lay_ipt" />
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">黄色值:</label>
+							<div class="layui-input-block">
+								<input type="number" name="yellow" required lay-verify="yellow" autocomplete="off" placeholder="请输入黄色警戒值"
+								 autocomplete="off" class="layui-input lay_ipt" />
+							</div>
+						</div>
+
+						<div class="layui-form-item">
+							<label class="layui-form-label">橙色值:</label>
+							<div class="layui-input-block">
+								<input type="number" name="orange" required lay-verify="orange" autocomplete="off" placeholder="请输入橙色警戒值"
+								 autocomplete="off" class="layui-input lay_ipt" />
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">红色值:</label>
+							<div class="layui-input-block">
+								<input type="number" name="red" required lay-verify="red" autocomplete="off" placeholder="请输入红色警戒值"
+								 autocomplete="off" class="layui-input lay_ipt" />
+							</div>
+						</div>
+						<div class="layui-form-item">
+							<div class="layui-input-block">
+								<button type="submit" class="layui-btn subbtn" lay-submit lay-filter="setSub">
+									提交
+								</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="../../lib/layui/layui/layui.js"></script>
+	<script>
+		document.write(
+			'<script src="../../js/site.js?t=' + new Date().getTime() + '"><\/script>'
+		);
+	</script>
+</html>

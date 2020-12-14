@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>沿海波浪</title>
+    <link rel="stylesheet" href="../../lib/layui/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../css/common.css" />
+    <link rel="stylesheet" href="../../css/wave.css" />
+  </head>
+
+  <body>
+    <div class="layui-fluid">
+      <div class="layui-row">
+        <div class="layui-col-xs12">
+          <div class="tle">
+            <p class="lt">
+              沿海波浪
+            </p>
+            <p
+              class="rt layui-icon layui-icon-close"
+              style="cursor: pointer;"
+              id="close"
+            ></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-row title">
+        <div class="form">
+          <form class="layui-form block" style="margin-right: 15px;">
+            <div class="sele">
+              <select lay-filter="sele">
+                <option value="国家站">国家站</option>
+                <option value="省自建">省自建</option>
+              </select>
+            </div>
+          </form>
+
+          <form class="layui-form block" style="margin-right: 15px;">
+            <div class="sele">
+              <select lay-filter="site">
+                <option value="2">观测站</option>
+                <option value="3">浮标</option>
+                <option value="1">雷达</option>
+                <option value="4">志愿船</option>
+              </select>
+            </div>
+          </form>
+
+          <div class="block">
+            <button class="layui-btn subbtn" id="starTran">
+              开始传输
+            </button>
+          </div>
+          
+          <div class="block">
+            <button class="layui-btn subbtn" id="endTran">
+              结束传输
+            </button>
+          </div>
+
+          <div class="block">
+            <button class="layui-btn subbtn" id="setUp">
+              设置要素
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-row count">
+        <div class="layui-col-xs4">
+          传输总计<span id="total"></span>条
+        </div>
+        <div class="layui-col-xs4 layui-col-md-offset4 num">
+          共有数据<span id="count">0</span>条
+        </div>
+      </div>
+
+      <div class="layui-row tab">
+        <form class="layui-form">
+          <div id="tbody">
+            <!-- <div class="layui-row item">
+              <div class="layui-col-xs1">
+                <input
+                  type="checkbox"
+                  name="cheAll"
+                  checked
+                  lay-skin="primary"
+                  lay-filter="cheAll"
+                />
+              </div>
+              <div class="layui-col-xs1">
+                2
+              </div>
+              <div class="layui-col-xs2 intv">
+                <div class="ipt">
+                  <input type="number" name="staMont" placeholder="月" />
+                </div>
+                <div class="ipt">
+                  <input type="number" name="staDay" placeholder="日" />
+                </div>
+                <div>至</div>
+                <div class="ipt">
+                  <input type="number" name="endMont" placeholder="月" />
+                </div>
+                <div class="ipt">
+                  <input type="number" name="endDay" placeholder="日" />
+                </div>
+              </div>
+              <div class="layui-col-xs2">
+                <div class="layui-input-inline">
+                  <input
+                    type="text"
+                    class="layui-input toTime"
+                    placeholder="请选择传输时间范围"
+                  />
+                </div>
+              </div>
+              <div class="layui-col-xs1">
+                6
+              </div>
+              <div class="layui-col-xs1">
+                5
+              </div>
+              <div class="layui-col-xs1">
+                4
+              </div>
+              <div class="layui-col-xs1">
+                3
+              </div>
+              <div class="layui-col-xs1">
+                2
+              </div>
+              <div class="layui-col-xs1">
+                1
+              </div>
+            </div> -->
+          </div>
+        </form>
+      </div>
+      <div id="pag"></div>
+    </div>
+  </body>
+  <script src="../../lib/layui/layui/layui.js"></script>
+  <script src="../../js/wave.js"></script>
+</html>

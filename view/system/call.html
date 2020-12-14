@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>报警参数设置</title>
+    <link rel="stylesheet" href="../../lib/layui/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../css/common.css" />
+    <link rel="stylesheet" href="../../css/call.css" />
+  </head>
+
+  <body>
+    <div class="layui-fluid">
+      <div class="layui-row">
+        <div class="layui-col-xs12">
+          <div class="tle">
+            <p class="lt">
+              报警参数设置
+            </p>
+            <p
+              class="rt layui-icon layui-icon-close"
+              style="cursor: pointer;"
+              id="close"
+            ></p>
+          </div>
+        </div>
+      </div>
+      <div class="layui-row title">
+        <div class="block">
+          <div class="layui-input-block lt">
+            <input
+              type="text"
+              placeholder="请输入内容"
+              class="layui-input look"
+              id="look"
+            />
+          </div>
+          <div class="lt">
+            <button class="layui-btn subbtn" id="sear">
+              <i class="layui-icon layui-icon-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-row count">
+        <div class="rt">共有数据<span id="count">0</span>条</div>
+      </div>
+      <div class="layui-row thead">
+        <div class="layui-col-xs3">要素名</div>
+        <div class="layui-col-xs2">波动阈值告警</div>
+        <div class="layui-col-xs2">上阈值告警</div>
+        <div class="layui-col-xs2">下阈值告警</div>
+        <div class="layui-col-xs3">操作</div>
+      </div>
+      <div class="layui-row" id="tbody"></div>
+    </div>
+
+    <div class="layui-fluid mask">
+      <div class="layui-row">
+        <div class="layui-col-xs6 mask_call">
+          <div class="subTle">
+            <p class="lt">
+              编辑要素配置
+            </p>
+            <p
+              class="rt layui-icon layui-icon-close"
+              style="cursor: pointer;"
+              id="maskHide"
+            ></p>
+          </div>
+
+          <div class="userInfo">
+            <form class="layui-form call_form" lay-filter="form">
+              <div class="layui-form-item item">
+                <label class="layui-form-label">要素名:</label>
+                <div class="layui-input-block">
+                  <input
+                    type="text"
+                    name="elem"
+                    disabled
+                    class="layui-input lay_ipt"
+                  />
+                </div>
+              </div>
+
+              <div class="layui-form-item item">
+                <label class="layui-form-label">上阀值:</label>
+                <div class="layui-input-block">
+                  <input
+                    type="text"
+                    name="topVal"
+                    lay-verify="topVal"
+                    placeholder="请输入上阀值"
+                    class="layui-input lay_ipt"
+                  />
+                </div>
+              </div>
+
+              <div class="layui-form-item item">
+                <label class="layui-form-label">下阀值:</label>
+                <div class="layui-input-block">
+                  <input
+                    type="text"
+                    name="btmVal"
+                    lay-verify="btmVal"
+                    placeholder="请输入下阀值"
+                    class="layui-input lay_ipt"
+                  />
+                </div>
+              </div>
+
+              <div class="layui-form-item item">
+                <label class="layui-form-label">波动阀值:</label>
+                <div class="layui-input-block">
+                  <input
+                    type="text"
+                    name="wavVal"
+                    lay-verify="wavVal"
+                    placeholder="请输入波动阀值"
+                    class="layui-input lay_ipt"
+                  />
+                </div>
+              </div>
+              <div class="layui-form-item item">
+                <label class="layui-form-label"></label>
+                <button
+                  type="submit"
+                  class="layui-btn subbtn"
+                  lay-submit
+                  lay-filter="sub"
+                >
+                  提交
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="../../lib/layui/layui/layui.js"></script>
+  <script>
+    layui
+      .config({
+        base: "../../lib/model/",
+      })
+      .extend({
+        urls: "urls",
+      });
+    layui.use(["urls", "form"], function () {
+      var $ = layui.$,
+        urls = layui.urls,
+        url = urls.url,
+        ajax = urls.ajax,
+        layForm = layui.form;
+      var id,
+        val = "",
+        arr = [];
+
+      function list() {
+        ajax({
+          url: url.call,
+          type: "get",
+          data: {
+            name: val,
+          },
+          success: function (res) {
+            $("#tbody").empty();
+            arr = res.results;
+            var count = res.count;
+            $("#count").html(count);
+            for (var i = 0; i < arr.length; i++) {
+              var str = "";
+              str =
+                '<div class="layui-row tbody">' +
+                '<div class="layui-col-xs3">' +
+                arr[i].element_name +
+                "</div>" +
+                '<div class="layui-col-xs2">' +
+                arr[i].v_alarm +
+                "</div>" +
+                '<div class="layui-col-xs2">' +
+                arr[i].o_alarm +
+                "</div>" +
+                '<div class="layui-col-xs2">' +
+                arr[i].u_alarm +
+                "</div>" +
+                '<div class="layui-col-xs3" id="' +
+                arr[i].id +
+                '">' +
+                '<img src="../../static/5.png" title="编辑"/>' +
+                "</div>" +
+                "</div>";
+              $("#tbody").append(str);
+            }
+          },
+        });
+      }
+
+      list();
+      $("#tbody").on("click", "img", function () {
+        var atr = $(this).parent().attr("id");
+        atr ? (id = atr) : (id = "");
+        var obj = {};
+        for (var s = 0; s < arr.length; s++) {
+          if (arr[s].id == id) {
+            obj = arr[s];
+          }
+        }
+        layForm.val("form", {
+          elem: obj.element_name,
+          topVal: obj.o_alarm,
+          btmVal: obj.u_alarm,
+          wavVal: obj.v_alarm,
+        });
+        $(".mask").show();
+      });
+
+      layForm.verify({
+        topVal: function (val) {
+          if (!val) {
+            return "请输入上阀值";
+          }
+        },
+        btmVal: function (val) {
+          if (!val) {
+            return "请输入下阀值";
+          }
+        },
+        wavVal: function (val) {
+          if (!val) {
+            return "请输入波动阀值";
+          }
+        },
+      });
+
+      layForm.on("submit(sub)", function (data) {
+        var field = data.field;
+        ajax({
+          url: url.parchange,
+          type: "post",
+          data: {
+            id: id,
+            element_name: field.elem,
+            o_alarm: field.topVal,
+            u_alarm: field.btmVal,
+            v_alarm: field.wavVal,
+          },
+          success: function () {
+            $(".mask").hide();
+            list();
+          },
+        });
+        return false;
+      });
+      $("#maskHide").click(function () {
+        $(".mask").hide();
+      });
+      $("#sear").click(function () {
+        val = $("#look").val();
+        list();
+      });
+      $("#close").click(function () {
+        urls.close();
+      });
+    });
+  </script>
+</html>

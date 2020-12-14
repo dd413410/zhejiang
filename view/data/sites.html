@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>站点数据</title>
+    <link rel="stylesheet" href="../../lib/layui/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../css/common.css" />
+    <link rel="stylesheet" href="../../css/sites.css" />
+  </head>
+
+  <body>
+    <div class="layui-fluid">
+      <div class="layui-row">
+        <div class="layui-col-xs12">
+          <div class="tle">
+            <p class="lt">
+              站点数据
+            </p>
+            <p
+              class="rt layui-icon layui-icon-close"
+              style="cursor: pointer;"
+              id="close"
+            ></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-row title">
+        <div class="block">
+          <form class="layui-form lt" style="margin-right: 15px;">
+            <div class="sele">
+              <select lay-filter="site" class="sele">
+                <option value="2">观测站</option>
+                <option value="1">雷达</option>
+                <option value="3">浮标</option>
+                <option value="4">志愿船</option>
+              </select>
+            </div>
+          </form>
+          <form class="layui-form lt" style="margin-right: 15px;">
+            <div class="sele">
+              <select lay-filter="seleEr" id="seleEr"> </select>
+            </div>
+          </form>
+          <form class="layui-form lt">
+            <div class="sele">
+              <select lay-filter="seleBox" id="seleBox"> </select>
+            </div>
+          </form>
+          <div class="layui-inline lt">
+            <label class="layui-form-label">时间范围:</label>
+            <div class="layui-input-inline" id="timeBox">
+              <input
+                type="text"
+                class="layui-input"
+                id="time"
+				autocomplete="off"
+                placeholder="选择时间范围"
+              />
+            </div>
+          </div>
+
+          <div class="layui-inline lt">
+            <button class="layui-btn subbtn" id="sear">
+              <i class="layui-icon layui-icon-search"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="layui-row head-tab">
+            <ul id="site">
+              <li class="tab-btn tab-add" atr="wl" code="tab-tide">
+                潮位
+              </li>
+
+              <li class="tab-btn" atr="wt" code="tab-sty">
+                水温
+              </li>
+              <li class="tab-btn" atr="sl" code="tab-sty">
+                盐度
+              </li>
+
+              <li class="tab-btn" atr="ws" code="tab-wind">
+                风速
+              </li>
+              <li class="tab-btn" atr="wd" code="tab-wind">
+                风向
+              </li>
+
+              <li class="tab-btn" atr="at" code="tab-five">
+                气温
+              </li>
+              <li class="tab-btn" atr="bp" code="tab-five">
+                气压
+              </li>
+              <li class="tab-btn" atr="hu" code="tab-five">
+                湿度
+              </li>
+
+              <li class="tab-btn" atr="rn" code="tab-five">
+                雨量
+              </li>
+
+              <li class="tab-btn" atr="vb" code="tab-five">
+                能见度
+              </li>
+
+              <li class="tab-btn" atr="bg" code="tab-wave">
+                波高
+              </li>
+              <li class="tab-btn" atr="min" code="tab-minu">
+                分钟
+              </li>
+              <li class="tab-btn" atr="min" code="tab-charts">
+                图形
+              </li>
+            </ul>
+
+            <ul id="radar">
+              <!-- <li class="tab-btn tab-add">
+                雷达
+              </li> -->
+            </ul>
+        </div>
+
+        <div class="layui-row tab">
+            <iframe
+              class="iframe"
+              src=""
+              scrolling="no"
+              frameborder="0"
+              id="iframe"
+              name="iframe"
+            ></iframe>
+        </div>
+    </div>
+  </body>
+  <script src="../../lib/layui/layui/layui.js"></script>
+  <script>
+    document.write(
+      '<script src="../../js/sites.js?t=' +
+        new Date().getTime() +
+        '"><\/script>'
+    );
+  </script>
+</html>

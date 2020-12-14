@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>蓝昌</title>
+    <link rel="stylesheet" href="../../lib/layui/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../css/common.css" />
+    <link rel="stylesheet" href="../../css/tab.css" />
+  </head>
+
+  <body>
+    <div class="tab">
+      <div id="thead">
+        <div class="name">站点</div>
+        <div class="date">日期</div>
+        <div>气温</div>
+        <div>气压</div>
+        <div>湿度</div>
+        <div>雨量</div>
+        <div>瞬时风速</div>
+        <div>瞬时风向</div>
+        <div>风速</div>
+        <div>风向</div>
+        <div>水温</div>
+        <div>盐度</div>
+        <div>潮位</div>
+      </div>
+      <div id="tbody"></div>
+    </div>
+
+    <div id="pag"></div>
+  </body>
+  <script src="../../lib/layui/layui/layui.js"></script>
+  <script>
+    layui
+      .config({
+        base: "../../lib/model/",
+      })
+      .extend({
+        urls: "urls",
+      });
+    layui.use(["urls", "laypage"], function () {
+      var $ = layui.$,
+        urls = layui.urls,
+        url = urls.url,
+        ajax = urls.ajax,
+        laypage = layui.laypage;
+      var page = 1;
+      window.list = function (start, end, id, val) {
+        ajax({
+          url: url.details,
+          type: "post",
+          data: {
+            id: id,
+            page_size: page,
+            value: val,
+            start: start,
+            end: end,
+            type: 2,
+          },
+          success: function (res) {
+            $("#tbody").empty();
+            var arr = res.data;
+            var total = res.length;
+            total > 10 ? $("#pag").show() : $("#pag").hide();
+            for (var i = 0; i < arr.length; i++) {
+              var arrItem = arr[i];
+              var str =
+                "<div class='tbody'>" +
+                "<div title=" +
+                arrItem.name +
+                ">" +
+                arrItem.name +
+                "</div>" +
+                "<div title=" +
+                arrItem.time +
+                ">" +
+                arrItem.time +
+                "</div>" +
+                "<div>" +
+                arrItem.at +
+                "</div>" +
+                "<div>" +
+                arrItem.bp +
+                "</div>" +
+                "<div>" +
+                arrItem.hu +
+                "</div>" +
+                "<div>" +
+                arrItem.rn +
+                "</div>" +
+                "<div>" +
+                arrItem.sws +
+                "</div>" +
+                "<div>" +
+                arrItem.swd +
+                "</div>" +
+                "<div>" +
+                arrItem.ws +
+                "</div>" +
+                "<div>" +
+                arrItem.wd +
+                "</div>" +
+                "<div>" +
+                arrItem.wt +
+                "</div>" +
+                "<div>" +
+                arrItem.sl +
+                "</div>" +
+                "<div>" +
+                arrItem.wl +
+                "</div>" +
+                "</div>";
+              $("#tbody").append(str);
+            }
+            laypage.render({
+              elem: "pag",
+              count: total,
+              curr: page,
+              theme: "#5a98de",
+              jump: function (obj, is) {
+                if (!is) {
+                  page = obj.curr;
+                  list(start, end, id, val);
+                }
+              },
+            });
+          },
+        });
+      };
+    });
+  </script>
+</html>

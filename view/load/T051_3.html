@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>T052_3</title>
+    <link rel="stylesheet" href="../../lib/layui/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../css/common.css" />
+    <link rel="stylesheet" href="../../css/load.css" />
+  </head>
+  <body>
+    <div class="tab">
+      <table border="1" bordercolor="#131a5f">
+        <thead>
+          <tr>
+            <th rowspan="3">B</th>
+            <th rowspan="3">X</th>
+            <th rowspan="3">日期</th>
+            <th rowspan="3">S</th>
+            <th colspan="36">逐时风向风速(m/s)</th>
+            <th colspan="4">最大风</th>
+          </tr>
+          <tr>
+            <th colspan="3">21/09</th>
+            <th colspan="3">22/10</th>
+            <th colspan="3">23/11</th>
+            <th colspan="3">00/12</th>
+            <th colspan="3">01/13</th>
+            <th colspan="3">02/14</th>
+            <th colspan="3">03/15</th>
+            <th colspan="3">04/16</th>
+            <th colspan="3">05/17</th>
+            <th colspan="3">06/18</th>
+            <th colspan="3">07/19</th>
+            <th colspan="3">08/20</th>
+            <th colspan="4">极大风</th>
+          </tr>
+          <tr>
+            <th>风向</th>
+            <th>风速</th>
+            <th>Q</th>
+            <th>风向</th>
+            <th>风速</th>
+            <th>Q</th>
+            <th>风向</th>
+            <th>风速</th>
+            <th>Q</th>
+            <th>风向</th>
+            <th>风速</th>
+            <th>Q</th>
+            <th>风向</th>
+            <th>风速</th>
+            <th>Q</th>
+            <th>风向</th>
+            <th>风速</th>
+            <th>Q</th>
+            <th>风向</th>
+            <th>风速</th>
+            <th>Q</th>
+            <th>风向</th>
+            <th>风速</th>
+            <th>Q</th>
+            <th>风向</th>
+            <th>风速</th>
+            <th>Q</th>
+            <th>风向</th>
+            <th>风速</th>
+            <th>Q</th>
+            <th>风向</th>
+            <th>风速</th>
+            <th>Q</th>
+            <th>风向</th>
+            <th>风速</th>
+            <th>Q</th>
+            <th>风向</th>
+            <th>风速</th>
+            <th>Q</th>
+            <th>时间</th>
+          </tr>
+        </thead>
+        <tbody id="tbod" align="center"></tbody>
+      </table>
+    </div>
+  </body>
+
+  <script src="../../lib/layui/layui/layui.js"></script>
+  <script>
+    layui
+      .config({
+        base: "../../lib/model/",
+      })
+      .extend({
+        urls: "urls",
+        func: "func",
+      });
+    layui.use(["urls", "func"], function () {
+      var $ = layui.$,
+        urls = layui.urls,
+        url = urls.url,
+        ajax = urls.ajax,
+        func = layui.func;
+      var id = func.locaStr("id"),
+        time = func.locaStr("time"),
+        val = func.locaStr("val");
+      $("#tbod").empty();
+      if (id) {
+        ajax({
+          url: url.shows,
+          type: "post",
+          data: {
+            site: id,
+            month: time,
+            type: "T051",
+            el: "ws",
+          },
+          success: function (res) {
+            var data = res.data;
+            for (var i = 0; i < data.length; i++) {
+              var str = "";
+              var td = "";
+              for (var j = 0; j < data[i].length; j++) {
+                td += "<td>" + data[i][j] + "</td>";
+              }
+              str = "<tr>" + td + "</tr>";
+              $("#tbod").append(str);
+            }
+          },
+        });
+      }
+    });
+  </script>
+</html>

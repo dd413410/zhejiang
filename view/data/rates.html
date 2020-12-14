@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>报警记录</title>
+    <link rel="stylesheet" href="../../lib/layui/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../css/common.css" />
+    <link rel="stylesheet" href="../../css/rates.css" />
+  </head>
+
+  <body>
+    <div class="layui-fluid">
+      <div class="layui-row">
+        <div class="layui-col-xs12">
+          <div class="tle">
+            <p class="lt">
+              报警记录
+            </p>
+            <p
+              class="rt layui-icon layui-icon-close"
+              style="cursor: pointer;"
+              id="close"
+            ></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-row title">
+        <div class="block">
+          <form class="layui-form lt">
+            <div class="sele">
+              <select id="sele"></select>
+            </div>
+          </form>
+          <form class="layui-form lt">
+            <div class="sele">
+              <select name="seles" id="seles">
+                <option value="">全部</option>
+                <option value="数据缺报">数据缺报</option>
+                <option value="数据接收超时">数据接收超时</option>
+                <option value="波动值报警">波动值报警</option>
+              </select>
+            </div>
+          </form>
+          <div class="lt">
+            <button class="layui-btn subbtn" id="sear">
+              <i class="layui-icon layui-icon-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-row thead">
+        <div>告警类型</div>
+        <div>告警时间</div>
+        <div>最新告警</div>
+        <div>截止告警</div>
+        <div>持续时间</div>
+        <div>告警站点</div>
+        <div>告警描述</div>
+        <div>短信提醒</div>
+      </div>
+      <div class="layui-row" id="tbody"></div>
+      <div id="pag"></div>
+    </div>
+  </body>
+  <script src="../../lib/layui/layui/layui.js"></script>
+  <script>
+    layui
+      .config({
+        base: "../../lib/model/",
+      })
+      .extend({
+        urls: "urls",
+      });
+    layui.use(["urls", "form", "laypage"], function () {
+      var $ = layui.$,
+        urls = layui.urls,
+        url = urls.url,
+        ajax = urls.ajax,
+        layForm = layui.form,
+        laypage = layui.laypage;
+      var page = 1,
+        val = "",
+        type = "";
+
+      function list() {
+        ajax({
+          url: url.alarm,
+          type: "get",
+          data: {
+            page_size: page,
+            name: val,
+            type: type,
+          },
+          success: function (res) {
+            var arr = res.results;
+            var count = res.count;
+            $("#count").html(count);
+            count > 10 ? $("#pag").show() : $("#pag").hide();
+            $("#tbody").empty();
+            for (var i = 0; i < arr.length; i++) {
+              var str = "";
+              var push = arr[i].sms_notification == true ? "已推送" : "未推送";
+              var str =
+                '<div class="tbody">' +
+                "<div>" +
+                arr[i].alarm_type +
+                "</div>" +
+                "<div>" +
+                arr[i].alarm_date +
+                "</div>" +
+                "<div>" +
+                arr[i].new_alarm +
+                "</div>" +
+                "<div>" +
+                arr[i].cutoff +
+                "</div>" +
+                "<div>" +
+                arr[i].duration +
+                "</div>" +
+                "<div>" +
+                arr[i].alarm_site +
+                "</div>" +
+                "<div title="+arr[i].alarm_description +">" +
+                arr[i].alarm_description +
+                "</div>" +
+                "<div>" +
+                push +
+                "</div>" +
+                "</div>";
+              $("#tbody").append(str);
+            }
+            laypage.render({
+              elem: "pag",
+              count: count,
+              curr: page,
+              theme: "#5a98de",
+              jump: function (obj, is) {
+                if (!is) {
+                  page = obj.curr;
+                  list();
+                }
+              },
+            });
+          },
+        });
+      }
+      list();
+
+      function checks() {
+        ajax({
+          url: url.checks,
+          type: "get",
+          data: {
+            username: layui.sessionData("home").temp.user,
+          },
+          success: function (res) {
+            var str;
+            str = '<option value="">全部 </option>';
+            for (var j = 0; j < res.length; j++) {
+              str +=
+                '<option value="' +
+                res[j].site_name +
+                '">' +
+                res[j].site_name +
+                "</option>";
+            }
+            $("#sele").append(str);
+            layForm.render("select");
+          },
+        });
+      }
+      checks();
+      $("#sear").click(function () {
+        val = $("#sele").val();
+        type = $("#seles").val();
+        page = 1;
+        list();
+      });
+      $("#close").click(function () {
+        urls.close();
+      });
+    });
+  </script>
+</html>

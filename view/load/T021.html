@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>T021</title>
+    <link rel="stylesheet" href="../../lib/layui/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../css/common.css" />
+    <link rel="stylesheet" href="../../css/load.css" />
+  </head>
+  <body>
+    <div class="tab">
+      <table border="1" bordercolor="#131a5f">
+        <thead>
+          <tr>
+            <th rowspan="3">B</th>
+            <th rowspan="3">X</th>
+            <th rowspan="3">日期</th>
+            <th rowspan="3">S</th>
+            <th colspan="24">逐时潮高 cm</th>
+            <th colspan="12">高低潮</th>
+          </tr>
+          <tr>
+            <th>00</th>
+            <th rowspan="2">Q</th>
+            <th>01</th>
+            <th rowspan="2">Q</th>
+            <th>02</th>
+            <th rowspan="2">Q</th>
+            <th>03</th>
+            <th rowspan="2">Q</th>
+            <th>04</th>
+            <th rowspan="2">Q</th>
+            <th>05</th>
+            <th rowspan="2">Q</th>
+            <th>06</th>
+            <th rowspan="2">Q</th>
+            <th>07</th>
+            <th rowspan="2">Q</th>
+            <th>08</th>
+            <th rowspan="2">Q</th>
+            <th>09</th>
+            <th rowspan="2">Q</th>
+            <th>10</th>
+            <th rowspan="2">Q</th>
+            <th>11</th>
+            <th rowspan="2">Q</th>
+            <th rowspan="2">潮时</th>
+            <th rowspan="2">Q</th>
+            <th rowspan="2">潮高</th>
+            <th rowspan="2">Q</th>
+            <th rowspan="2">潮时</th>
+            <th rowspan="2">Q</th>
+            <th rowspan="2">潮高</th>
+            <th rowspan="2">Q</th>
+            <th rowspan="2">潮时</th>
+            <th rowspan="2">Q</th>
+            <th rowspan="2">潮高</th>
+            <th rowspan="2">Q</th>
+          </tr>
+          <tr>
+            <th>12</th>
+            <th>13</th>
+            <th>14</th>
+            <th>15</th>
+            <th>16</th>
+            <th>17</th>
+            <th>18</th>
+            <th>19</th>
+            <th>20</th>
+            <th>21</th>
+            <th>22</th>
+            <th>23</th>
+          </tr>
+        </thead>
+        <tbody id="tbod" align="center"></tbody>
+      </table>
+    </div>
+  </body>
+  <script src="../../lib/layui/layui/layui.js"></script>
+  <script>
+    layui
+      .config({
+        base: "../../lib/model/",
+      })
+      .extend({
+        urls: "urls",
+        func: "func",
+      });
+    layui.use(["urls", "func"], function () {
+      var $ = layui.$,
+        urls = layui.urls,
+        url = urls.url,
+        ajax = urls.ajax,
+        func = layui.func;
+      var id = func.locaStr("id"),
+        time = func.locaStr("time");
+      $("#tbod").empty();
+      if (id) {
+        ajax({
+          url: url.shows,
+          type: "post",
+          data: {
+            site: id,
+            month: time,
+            type: "T021",
+          },
+          success: function (res) {
+            var data = res.data;
+            for (var i = 0; i < data.length; i++) {
+              var str = "";
+              var td = "";
+              for (var j = 0; j < data[i].length; j++) {
+                td += "<td>" + data[i][j] + "</td>";
+              }
+              str = "<tr>" + td + "</tr>";
+              $("#tbod").append(str);
+            }
+          },
+        });
+      }
+    });
+  </script>
+</html>

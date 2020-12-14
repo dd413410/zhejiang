@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>海洋观测数据业务化应用平台</title>
+    <link rel="stylesheet" href="./lib/layui/layui/css/layui.css" />
+    <link rel="stylesheet" href="./css/common.css" />
+    <link rel="stylesheet" href="./css/index.css" />
+  </head>
+
+  <body>
+    <div id="login">
+      <div class="lt">
+        <div class="earth">
+          <img src="./static/bg3.png" />
+        </div>
+      </div>
+      <div class="rt">
+        <div class="tle">海洋观测数据业务化应用平台</div>
+        <div class="form">
+          <div class="bg"></div>
+          <form class="layui-form loginform">
+            <div class="layui-form-item loginTle">
+              系统登录
+            </div>
+            <div class="layui-form-item loginItem">
+              <label class="layui-form-label label">
+                <img src="static/user.png" />
+              </label>
+              <div class="layui-input-inline rtIpt">
+                <input
+                  type="text"
+                  name="user"
+                  id="user"
+                  required
+                  lay-verify="user"
+                  placeholder="请输入账号"
+                  autocomplete="off"
+                  class="layui-input"
+                />
+              </div>
+            </div>
+
+            <div class="layui-form-item loginItem">
+              <label class="layui-form-label label">
+                <img src="static/pass.png" />
+              </label>
+              <div class="layui-input-inline rtIpt">
+                <input
+                  type="password"
+                  name="pass"
+                  id="pass"
+                  required
+                  lay-verify="pass"
+                  placeholder="请输入密码"
+                  autocomplete="off"
+                  class="layui-input"
+                />
+              </div>
+            </div>
+
+            <div class="layui-form-item">
+              <div class="layui-input-block btnBox">
+                <button
+                  type="submit"
+                  class="layui-btn sub_btn"
+                  lay-submit
+                  lay-filter="login"
+                >
+                  登录
+                </button>
+              </div>
+              <!-- <button type="submit" class="layui-btn subbtn" lay-submit lay-filter="login">登录</button> -->
+            </div>
+
+            <div class="layui-form-item desc">
+              技术支持:杭州蓝昌科技有限公司 电话:0571-87357882
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="./lib/layui/layui/layui.js"></script>
+  <script src="./lib/model/rem.js"></script>
+  <script>
+    layui
+      .config({
+        base: "lib/model/"
+      })
+      .extend({
+        urls: "urls",
+        func: "func"
+      });
+    layui.use(["urls", "func", "form"], function() {
+      var urls = layui.urls,
+        func = layui.func,
+        url = urls.url,
+        ajax = urls.ajax,
+        layForm = layui.form,
+        lay = layui.layer;
+      layForm.verify({
+        user: function(val) {
+          if (!func.trimFn(val)) {
+            return "请输入用户名!";
+          }
+        },
+        pass: function(val) {
+          if (!func.trimFn(val)) {
+            return "请输入密码!";
+          }
+        }
+      });
+      layForm.on("submit(login)", function(data) {
+        ajax({
+          url: url.login,
+          type: "post",
+          data: {
+            username: data.field.user,
+            password: data.field.pass
+          },
+          success: function(res) {
+            layui.sessionData("live", {
+              key: "user",
+              value: res.username
+            });
+            window.location.href = "./view/data/live.html";
+          },
+          error: function(err) {
+            if (err.status == 400) {
+              var err = err.responseJSON;
+              var objArr = Object.keys(err);
+              lay.msg(err[objArr[0]]);
+            }
+          }
+        });
+        return false;
+      });
+    });
+  </script>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>传输率统计</title>
+		<link rel="stylesheet" href="../../lib/layui/layui/css/layui.css" />
+		<link rel="stylesheet" href="../../css/common.css" />
+		<link rel="stylesheet" href="../../css/rate.css" />
+	</head>
+
+	<body>
+		<div class="layui-fluid">
+			<div class="layui-row">
+				<div class="layui-col-xs12">
+					<div class="tle">
+						<p class="lt">
+							传输率统计
+						</p>
+						<p class="rt layui-icon layui-icon-close" style="cursor: pointer;" id="close"></p>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row title">
+				<div class="block">
+					<form class="layui-form lt">
+						<div class="layui-form-item sele">
+							<select id="center">
+								<option value="省自建">省自建</option>
+								<option value="国家站">国家站</option>
+							</select>
+						</div>
+					</form>
+					<form class="layui-form lt">
+						<div class="layui-form-item sele">
+							<select id="seleBox"> </select>
+						</div>
+					</form>
+					<div class="layui-inline lt">
+						<label class="layui-form-label">时间范围:</label>
+						<div class="layui-input-inline">
+							<input type="text" autocomplete="off" class="layui-input" id="time" placeholder="选择时间范围" />
+						</div>
+					</div>
+					<form class="layui-form lt">
+						<div class="layui-form-item sele">
+							<select id="sort">
+								<option value="0">反序</option>
+								<option value="1">正序</option>
+							</select>
+						</div>
+					</form>
+					<div class="lt">
+						<button class="layui-btn subbtn" id="sear">
+							<i class="layui-icon layui-icon-search"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="layui-row count">
+				<div class="rt">共有数据<span id="count">0</span>条</div>
+			</div>
+
+			<div class="layui-row thead">
+				<div class="layui-col-xs1">站点</div>
+				<div class="layui-col-xs1">时间</div>
+				<div class="layui-col-xs1">潮位(%)</div>
+				<div class="layui-col-xs1">水温(%)</div>
+				<div class="layui-col-xs1">盐度(%)</div>
+				<div class="layui-col-xs1">气温(%)</div>
+				<div class="layui-col-xs1">气压(%)</div>
+				<div class="layui-col-xs1">湿度(%)</div>
+				<!-- <div class="layui-col-xs1">雨量(%)</div> -->
+				<div class="layui-col-xs1">风速(%)</div>
+				<div class="layui-col-xs1">波高(%)</div>
+				<div class="layui-col-xs1">到报率(%)</div>
+				<div class="layui-col-xs1">有效率(%)</div>
+			</div>
+			<div class="layui-row" id="tbody"></div>
+			<div id="pag"></div>
+		</div>
+	</body>
+	<script src="../../lib/layui/layui/layui.js"></script>
+	<script>
+		layui
+			.config({
+				base: "../../lib/model/",
+			})
+			.extend({
+				urls: "urls",
+				func: "func",
+			});
+		layui.use(["urls", "func", "form", "laydate", "laypage"], function() {
+			var $ = layui.$,
+				urls = layui.urls,
+				url = urls.url,
+				ajax = urls.ajax,
+				func = layui.func,
+				lay = layui.layer,
+				layForm = layui.form,
+				laydate = layui.laydate,
+				laypage = layui.laypage;
+			var siteName = "",
+				sort = 0,
+				page = 1,
+				start = "",
+				end = "";
+
+			function checks() {
+				ajax({
+					url: url.stype,
+					type: "get",
+					data: {},
+					success: function(res) {
+						var data = res.data;
+						var typeStr = '';
+						for (var j = 0; j < data.length; j++) {
+							typeStr += '<option value="' + data[j].pk + '">' + data[j].fields.title + '</option>';
+						}
+						$('#seleBox').html(typeStr);
+						layForm.render('select');
+						siteName = data[0].pk;
+						rate();
+					},
+					error: function(r) {
+						if (r.status == 400) {
+							var err = r.responseJSON;
+							var objArr = Object.keys(err);
+							lay.msg(err[objArr[0]]);
+						}
+					},
+				});
+			}
+			checks();
+			var center = "省自建";
+
+			function rate() {
+				ajax({
+					url: url.rates,
+					type: "get",
+					data: {
+						page_size: page,
+						type: siteName,
+						sort: sort,
+						center: center,
+						start: start,
+						end: end,
+					},
+					success: function(res) {
+						$("#tbody").empty();
+						var arr = res.results;
+						var count = res.count;
+						$("#count").html(count);
+						count > 10 ? $("#pag").show() : $("#pag").hide();
+						for (var i = 0; i < arr.length; i++) {
+							//   var str = "";
+							// var push = arr[i].sms_notification == true ? '已推送' : '未推送';
+							// <!-- <div class="layui-col-xs1">获取率(%)</div> -->
+
+							var str =
+								'<div class="layui-row tbody">' +
+								'<div class="layui-col-xs1" title=' +
+								arr[i].site +
+								">" +
+								arr[i].site +
+								"</div>" +
+								'<div class="layui-col-xs1" title=' +
+								arr[i].time +
+								">" +
+								arr[i].time +
+								"</div>" +
+
+								'<div class="layui-col-xs1">' +
+								arr[i].WL +
+								"</div>" +
+								'<div class="layui-col-xs1">' +
+								arr[i].WT +
+								"</div>" +
+								'<div class="layui-col-xs1">' +
+								arr[i].SL +
+								"</div>" +
+								'<div class="layui-col-xs1">' +
+								arr[i].AT +
+								"</div>" +
+								'<div class="layui-col-xs1">' +
+								arr[i].BP +
+								"</div>" +
+								'<div class="layui-col-xs1">' +
+								arr[i].HU +
+								"</div>" +
+								// '<div class="layui-col-xs1">' +
+								// arr[i].RN +
+								// "</div>" +
+								'<div class="layui-col-xs1">' +
+								arr[i].WS +
+								"</div>" +
+								'<div class="layui-col-xs1">' +
+								arr[i].WD +
+								"</div>" +
+								'<div class="layui-col-xs1">' +
+								arr[i].TSS +
+								"</div>" +
+								'<div class="layui-col-xs1">' +
+								arr[i].OBT +
+								"</div>" +
+								"</div>";
+							$("#tbody").append(str);
+						}
+						laypage.render({
+							elem: "pag",
+							count: count,
+							curr: page,
+							theme: "#5a98de",
+							jump: function(obj, is) {
+								if (!is) {
+									page = obj.curr;
+									rate();
+								}
+							},
+						});
+					},
+					error: function(r) {
+						if (r.status == 400) {
+							var err = r.responseJSON;
+							var objArr = Object.keys(err);
+							lay.msg(err[objArr[0]]);
+						}
+					},
+				});
+			};
+			$("#sear").click(function() {
+				var time = $("#time").val();
+				center = $("#center").val();
+				siteName = $("#seleBox").val();
+				sort = $("#sort").val();
+				page = 1;
+				if (time != "") {
+					if (time.indexOf("-") != -1) {
+						var arr = time.split("-");
+						s = arr[0] + "-" + arr[1] + "-" + arr[2];
+						e = arr[3] + "-" + arr[4] + "-" + arr[5];
+						start = s.trim();
+						end = e.trim();
+						page = 1;
+					} else {
+						lay.msg("请注意时间格式！");
+						return;
+					}
+				}
+				rate();
+			});
+			$("#close").click(function() {
+				urls.close();
+			});
+			laydate.render({
+				elem: "#time",
+				range: true,
+				max: func.initDate(),
+				format: "yyyy-MM-dd",
+				value: func.initDate() + " - " + func.initDate(),
+			});
+		});
+	</script>
+</html>

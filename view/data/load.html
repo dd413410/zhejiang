@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>数据下载</title>
+    <link rel="stylesheet" href="../../lib/layui/layui/css/layui.css" />
+    <link rel="stylesheet" href="../../css/loads.css" />
+  </head>
+
+  <body>
+    <div class="layui-fluid">
+      <div class="layui-row">
+        <div class="layui-col-xs12">
+          <div class="tle">
+            <p class="lt">
+              数据下载
+            </p>
+            <p
+              class="rt layui-icon layui-icon-close"
+              style="cursor: pointer;"
+              id="close"
+            ></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-row title">
+        <div class="block">
+          <form class="layui-form lt">
+            <div class="sele">
+              <select lay-filter="seleEr" id="seleEr"> </select>
+            </div>
+          </form>
+          <form class="layui-form lt" style="margin-left: 15px;">
+            <div class="sele">
+              <select lay-filter="seleBox" id="seleBox">
+                <!--<option value="1">1</option>-->
+              </select>
+            </div>
+          </form>
+          <div class="layui-inline lt">
+            <label class="layui-form-label">时间:</label>
+            <div class="layui-input-inline">
+              <input
+                type="text"
+                class="layui-input"
+                id="time"
+                placeholder="选择时间"
+              />
+            </div>
+          </div>
+          <div class="block" style="margin-left: 10px;">
+            <button class="layui-btn subbtn" id="gener">
+              生成报表
+            </button>
+          </div>
+          <div class="block" style="margin-left: 10px;">
+            <button class="layui-btn subbtn" id="loadFn">
+              导出报表
+            </button>
+          </div>
+          <div class="block" style="margin-left: 10px;">
+            <button class="layui-btn subbtn" id="batch">
+              批量导出
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-row">
+        <div class="head-tab">
+          <ul>
+            <li class="tab-btn tab-add" code="T011">
+              T011
+            </li>
+
+            <li class="tab-btn" code="T012">
+              T012
+            </li>
+            <li class="tab-btn" code="T021">
+              T021
+            </li>
+
+            <li class="tab-btn" code="T022">
+              T022
+            </li>
+            <li class="tab-btn" code="T023">
+              T023
+            </li>
+
+            <li class="tab-btn" code="T051">
+              T051(表一)
+            </li>
+            <li class="tab-btn" code="T051_2">
+              T051(表二)
+            </li>
+            <li class="tab-btn" code="T051_3">
+              T051(表三)
+            </li>
+            <li class="tab-btn" code="T052">
+              T052
+            </li>
+            <li class="tab-btn" code="T053">
+              T053
+            </li>
+
+            <li class="tab-btn" code="T054">
+              T054(表一)
+            </li>
+            <li class="tab-btn" code="T054_2">
+              T054(表二)
+            </li>
+            <li class="tab-btn" code="T054_3">
+              T054(表三)
+            </li>
+            <li class="tab-btn" code="excel">
+              excel 下载
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="layui-row">
+        <div class="iframe_tab">
+          <iframe
+            class="iframe"
+            src=""
+            scrolling="no"
+            frameborder="0"
+            id="iframe"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+    <!-- tianjia  -->
+    <div class="mask">
+      <div class="mask_box">
+        <p
+          class="rt layui-icon"
+          style="cursor: pointer; color: #fff;"
+          id="hideMask"
+        >
+          &#x1006;
+        </p>
+        <form class="layui-form">
+          <div class="layui-form-item">
+            <div class="layui-inline block">
+              <label class="layui-form-label">时间:</label>
+              <div class="layui-input-inline">
+                <input
+                  type="text"
+                  name=""
+                  class="layui-input"
+                  id="date"
+                  placeholder="选择时间"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-input-block">
+              <input
+                type="checkbox"
+                name="T011"
+                value="T011"
+                lay-skin="primary"
+                lay-filter="check"
+                title="T011"
+                checked
+              />
+              <input
+                type="checkbox"
+                name="T012"
+                value="T012"
+                lay-skin="primary"
+                lay-filter="check"
+                title="T012"
+                checked
+              />
+              <input
+                type="checkbox"
+                name="T021"
+                value="T021"
+                lay-skin="primary"
+                lay-filter="check"
+                title="T021"
+                checked
+              />
+            </div>
+            <div class="layui-input-block">
+              <input
+                type="checkbox"
+                name="T022"
+                value="T022"
+                lay-skin="primary"
+                lay-filter="check"
+                title="T022"
+                checked
+              />
+              <input
+                type="checkbox"
+                name="T023"
+                value="T023"
+                lay-skin="primary"
+                lay-filter="check"
+                title="T023"
+                checked
+              />
+              <input
+                type="checkbox"
+                name="T051"
+                value="T051"
+                lay-skin="primary"
+                lay-filter="check"
+                title="T051"
+                checked
+              />
+            </div>
+            <div class="layui-input-block">
+              <input
+                type="checkbox"
+                name="T052"
+                value="T052"
+                lay-skin="primary"
+                lay-filter="check"
+                title="T052"
+                checked
+              />
+              <input
+                type="checkbox"
+                name="T053"
+                value="T053"
+                lay-skin="primary"
+                lay-filter="check"
+                title="T053"
+                checked
+              />
+              <input
+                type="checkbox"
+                name="T054"
+                value="T054"
+                lay-skin="primary"
+                lay-filter="check"
+                title="T054"
+                checked
+              />
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <div class="layui-input-block">
+              <button
+                type="submit"
+                class="layui-btn sub"
+                lay-submit
+                lay-filter="form"
+              >
+                导出
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+  <script src="../../lib/layui/layui/layui.js"></script>
+  <script>
+    layui
+      .config({
+        base: "../../lib/model/",
+      })
+      .extend({
+        urls: "urls",
+        func: "func",
+      });
+    layui.use(["urls", "func", "laydate", "form"], function () {
+      var $ = layui.$,
+        urls = layui.urls,
+        url = urls.url,
+        ajax = urls.ajax,
+        func = layui.func,
+        lay = layui.layer,
+        laydate = layui.laydate,
+        layForm = layui.form;
+      var id = "",
+        // time = func.initM(),
+        u = "T011";
+
+      function erFn() {
+        ajax({
+          url: url.area,
+          type: "get",
+          data: {
+            username: layui.sessionData("home").temp.user,
+            id: 2,
+          },
+          success: function (res) {
+            $("#seleEr").empty();
+            if (res.length > 0) {
+              var str = "";
+              var erId = res[0].id;
+              for (var j = 0; j < res.length; j++) {
+                str +=
+                  '<option value="' +
+                  res[j].id +
+                  '">' +
+                  res[j].site_name +
+                  "</option>";
+              }
+              $("#seleEr").html(str);
+              layForm.render("select");
+              checks(erId);
+            }
+          },
+        });
+      }
+      erFn();
+      function checks(erId) {
+        ajax({
+          url: url.search,
+          type: "get",
+          data: {
+            username: layui.sessionData("home").temp.user,
+            id: erId,
+            type: 2,
+          },
+          success: function (res) {
+            $("#seleBox").empty();
+            id = res[0].id;
+            var str = "";
+            for (var j = 0; j < res.length; j++) {
+              str +=
+                '<option value="' +
+                res[j].id +
+                '">' +
+                res[j].site_name +
+                "</option>";
+            }
+            $("#seleBox").append(str);
+            layForm.render("select");
+            $("#iframe").attr(
+              "src",
+              "../load/" + u + ".html"
+            );
+            // $("#iframe").attr(
+            //   "src",
+            //   "../load/" + u + ".html?id=" + id + "&time=" + time
+            // );
+          },
+        });
+      }
+      layForm.on("select(seleEr)", function (data) {
+        var erId = data.value;
+        checks(erId);
+        return false;
+      });
+      layForm.on("select(seleBox)", function (data) {
+        id = data.value;
+        // $("#iframe").attr(
+        //   "src",
+        //   "../load/" + u + ".html?id=" + id + "&time=" + time
+        // );
+        return false;
+      });
+
+      $(".tab-btn").click(function () {
+        $(".tab-btn").removeClass("tab-add");
+        $(this).addClass("tab-add");
+        u = $(this).attr("code");
+        // src = "../load/" + u + ".html?id=" + id + "&time=" + time;
+        src = "../load/" + u + ".html";
+        $("#iframe").attr("src", src);
+      });
+      $("#gener").click(function () {
+        var src;
+        if (id) {
+          time = $("#time").val();
+          // src = "../load/" + u + ".html?id=" + id + "&time=" + time;
+          src = "../load/" + u + ".html?id=" + id + "&time=" + time;
+        } else {
+          lay.msg("请选择站点！");
+          return;
+        }
+        $("#iframe").attr("src", src);
+      });
+
+      $("#batch").click(function () {
+        $(".mask").show();
+      });
+      $("#hideMask").click(function () {
+        $(".mask").hide();
+      });
+
+      layForm.on("submit(form)", function (data) {
+        var data = data.field;
+        var objArr = Object.keys(data);
+        var str = objArr.join(",");
+        var date = $("#date").val();
+        ajax({
+          url: url.file,
+          type: "post",
+          data: {
+            username: layui.sessionData("home").temp.user,
+            site: id,
+            type: str,
+            month: date,
+          },
+          success: function (res) {
+            window.location.href = res.url;
+          },
+          error: function (r) {
+            var err = r.responseJSON;
+            var objArr = Object.keys(err);
+            lay.msg(err[objArr[0]]);
+          },
+        });
+        return false;
+      });
+      var isChck = true;
+      $("#loadFn").click(function () {
+        var idx = u.lastIndexOf("_");
+        var href = u.substring(0, idx) || u;
+        if (isChck) {
+          isChck = false;
+          setTimeout(function () {
+            isChck = true;
+          }, 2000);
+          ajax({
+            url: url.file,
+            type: "post",
+            data: {
+              username: layui.sessionData("home").temp.user,
+              site: id,
+              type: href,
+              month: $("#time").val(),
+            },
+            success: function (res) {
+              window.location.href = res.url;
+            },
+            error: function (r) {
+              var err = r.responseJSON;
+              var objArr = Object.keys(err);
+              lay.msg(err[objArr[0]]);
+            },
+          });
+        }
+      });
+      $("#close").click(function () {
+        urls.close();
+      });
+      laydate.render({
+        elem: "#time",
+        type: "month",
+        max: func.initDate(),
+        format: "yyyy-MM",
+        value: func.initM(),
+      });
+      laydate.render({
+        elem: "#date",
+        type: "month",
+        format: "yyyy-MM",
+        value: func.initM(),
+      });
+    });
+  </script>
+</html>
